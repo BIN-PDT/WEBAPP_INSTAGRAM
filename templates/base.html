@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0" />
+		<title>Awesome</title>
+		<link
+			rel="shortcut icon"
+			href="https://img.icons8.com/small/64/000000/fire-heart.png"
+			type="image/x-icon" />
+		<!-- GOOGLE FONT -->
+		<link
+			rel="preconnect"
+			href="https://fonts.googleapis.com" />
+		<link
+			rel="preconnect"
+			href="https://fonts.gstatic.com"
+			crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=New+Amsterdam&display=swap"
+			rel="stylesheet" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Lobster&display=swap"
+			rel="stylesheet" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Calistoga&display=swap"
+			rel="stylesheet" />
+		<!-- ALPINE JS -->
+		<script
+			defer
+			src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+		<!-- TAILWIND CSS -->
+		<script src="https://cdn.tailwindcss.com"></script>
+		<style type="text/tailwindcss">
+			[x-cloak] {
+				display: none !important;
+			}
+
+			:root {
+				--primary: rgba(28, 40, 51, 0.75);
+				--font-1: "Lobster", sans-serif;
+				--font-2: "New Amsterdam", sans-serif;
+				--font-3: "Calistoga", serif;
+			}
+
+			.font-1 {
+				font-family: var(--font-1);
+				font-weight: 400;
+				font-style: normal;
+			}
+
+			.font-2 {
+				font-family: var(--font-2);
+				font-weight: 400;
+				font-style: normal;
+			}
+
+			.font-3 {
+				font-family: var(--font-3);
+				font-weight: 400;
+				font-style: normal;
+			}
+
+			h1 {
+				font-size: 4rem;
+				font-weight: bold;
+				line-height: 1.2;
+				margin-bottom: 1rem;
+				font-family: var(--font-1);
+			}
+
+			h2 {
+				font-size: 1.5rem;
+				font-weight: bold;
+				line-height: 2rem;
+				margin-bottom: 0.75rem;
+				font-family: var(--font-1);
+			}
+
+			.button {
+				display: inline-flex;
+				flex-shrink: 0;
+				flex-wrap: wrap;
+				align-items: center;
+				justify-content: center;
+				cursor: pointer;
+				padding: 0 1rem;
+				min-height: 3.3rem;
+				border-radius: 0.5rem;
+				box-shadow: 0 4px 3px rgba(0, 0, 0, 0.1);
+				transition-duration: 0.2s;
+				transition-property: transform;
+				color: white;
+				text-align: center;
+				background-color: var(--primary);
+			}
+
+			.button:active {
+				transform: scale(0.95);
+			}
+
+			.nav-items > li > a {
+				@apply h-12 px-5 flex items-center gap-3 text-xl rounded-lg hover:bg-gray-700;
+			}
+
+			.card {
+				position: relative;
+				overflow: hidden;
+				display: flex;
+				flex-direction: column;
+				padding-bottom: 1rem;
+				border-radius: 1rem;
+				margin-bottom: 2rem;
+				box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+				background-color: white;
+			}
+
+			.hover-list > * {
+				@apply hover:bg-gray-100 rounded-md transition duration-150;
+			}
+
+			.hover-list > * > a {
+				@apply p-2 flex items-center text-sm;
+			}
+
+			.highlight {
+				@apply !bg-indigo-100;
+			}
+
+			.title-blip {
+				animation: 1s fade-in;
+			}
+
+			@keyframes fade-in {
+				0% {
+					opacity: 0;
+				}
+				10% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+		</style>
+	</head>
+	<body class="bg-gray-100">
+		{% include "includes/header.html" %}
+		{% include "includes/hero.html" %}
+		{% block layout %}{% endblock %}
+	</body>
+</html>

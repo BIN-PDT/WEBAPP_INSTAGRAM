@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+
+{% block layout %}
+	<content
+		x-data="{ mobileSidebarOpen: false }"
+		class="grid grid-cols-3 max-w-7xl mx-auto mt-6">
+		<mobileSidebarNav
+			class="relative z-10 col-span-full mx-auto mb-6 md:hidden">
+			<a
+				@click="mobileSidebarOpen = !mobileSidebarOpen"
+				class="p-3 flex items-center rounded-lg cursor-pointer select-none hover:bg-gray-200 font-1 text-lg font-bold">
+				<span>Categories</span>
+				<img
+					x-bind:class="mobileSidebarOpen && 'rotate-180 duration-300'"
+					class="w-4 ml-1.5"
+					src="https://img.icons8.com/small/32/000000/expand-arrow--v1.png" />
+			</a>
+		</mobileSidebarNav>
+		<!-- POST -->
+		<main
+			class="col-span-full md:col-span-2 mx-[5%] md:mx-[10%] order-2 md:order-1">
+			{% block content %}{% endblock %}
+		</main>
+		<!-- SIDEBAR -->
+		{% include "includes/sidebar.html" %}
+	</content>
+{% endblock %}

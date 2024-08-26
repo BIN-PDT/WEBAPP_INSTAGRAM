@@ -1,0 +1,75 @@
+{% extends "layouts/a.html" %}
+
+
+{% block content %}
+    <article class="card">
+        <!-- PHOTO INFORMATION -->
+        <div class="px-4 h-14 flex items-center justify-between">
+            <h3 class="w-[50%] truncate text-lg font-bold italic">Little Jedi</h3>
+            <div class="text-sm text-gray-500 italic">
+                flickr @
+                <a
+                    href=""
+                    target="_blank"
+                    class="hover:underline"
+                    >John Doe</a
+                >
+            </div>
+        </div>
+        <!-- IMAGE -->
+        <figure>
+            <img
+                class="w-full"
+                src="https://live.staticflickr.com/65535/50618365686_36f887ab88_c.jpg"
+                alt="" />
+        </figure>
+        <!-- POST INFORMATION -->
+        <div class="p-4 pb-2">
+            <!-- AUTHOR -->
+            <a
+                href=""
+                class="mb-4 flex items-center gap-2">
+                <img
+                    class="w-8 rounded-full"
+                    src="https://img.icons8.com/glyph-neue/100/quill-pen.png"
+                    alt="" />
+                <span class="font-bold italic hover:underline"> Lisa </span>
+            </a>
+            <!-- CAPTION -->
+            <p class="mb-10 px-4 font-1 text-5xl">Jedi Kitty protects the street</p>
+            <!-- TAG -->
+            <div class="mb-5 flex items-center gap-2 text-sm">
+                <a
+                    href=""
+                    class="px-3 py-1 bg-gray-200 rounded-full italic hover:bg-gray-500 hover:text-white"
+                    >Animals</a
+                >
+                <a
+                    href=""
+                    class="px-3 py-1 bg-gray-200 rounded-full italic hover:bg-gray-500 hover:text-white"
+                    >Cute</a
+                >
+            </div>
+            <!-- INTERACTION -->
+            <div class="px-2 flex items-center justify-between font-2">
+                <a href="">
+                    <span class="hover:underline">Comments</span>
+                    <span class="ml-1 text-gray-500">1</span>
+                </a>
+
+                <div class="flex items-center gap-4 [&>a:hover]:underline">
+                    <div class="flex items-center gap-1 text-gray-500">
+                        <img
+                            class="w-5 -mt-1"
+                            src="https://img.icons8.com/small/24/000000/fire-heart.png"
+                            alt="" />
+                        <span>1</span>
+                    </div>
+                    <a href="">Like</a>
+                    <a href="">Edit</a>
+                    <a href="">Comment</a>
+                </div>
+            </div>
+        </div>
+    </article>
+{% endblock %}
