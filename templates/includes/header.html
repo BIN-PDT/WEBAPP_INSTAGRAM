@@ -1,10 +1,10 @@
 <header
 	x-data="{ mobileNavOpen: false }"
-	class="md:flex items-center justify-between h-20 [&>*]:px-6 sticky top-0 z-50 bg-gray-800 text-white select-none">
+	class="md:flex items-center justify-between h-20 [&>*]:px-6 sticky top-0 z-40 bg-gray-800 text-white select-none">
 	<div class="h-full flex items-center justify-between">
 		<logo>
 			<a
-				href=""
+				href="{% url "home" %}"
 				class="flex items-center gap-2">
 				<img
 					class="h-8 -mt-1"
@@ -47,7 +47,7 @@
 		class="absolute md:relative top-0 -z-10 md:!block w-full h-screen md:w-auto md:h-auto bg-gray-800">
 		<ul
 			x-data="{ dropdownOpen: false }"
-			class="h-full flex flex-col md:flex-row items-center justify-center gap-8 md:gap-0 nav-items font-2 title-blip [&>li>a]:w-40 [&>li>a]:md:w-auto [&>li>a]:justify-center">
+			class="h-full flex flex-col md:flex-row items-center justify-center gap-8 md:gap-0 nav-items font-2 title-blip [&>li>a]:w-40 md:[&>li>a]:w-auto [&>li>a]:justify-center">
 			<li>
 				<a href="">HOME</a>
 			</li>

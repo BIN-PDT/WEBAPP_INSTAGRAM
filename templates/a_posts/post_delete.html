@@ -1,0 +1,30 @@
+{% extends "layouts/b.html" %}
+
+
+{% block content %}
+    <div class="md:flex items-center">
+        <div
+            class="w-full md:max-w-sm mr-6 md:[&>*>div:first-child]:h-10 md:[&>*>*>h3]:text-sm md:[&>*>*>p]:text-4xl">
+            {% include "a_posts/post.html" %}
+        </div>
+
+        <div class="text-center md:text-left">
+            <h1 class="font-1">Delete Post</h1>
+            <p class="mb-6 font-2 text-xl">
+                Are you certain about deleting this post?<br>
+                <span class="text-red-600">This action cannot be undone!</span>
+            </p>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <button type="submit">Confirm</button>
+                <a
+                    class="ml-2 button secondary-action"
+                    href="{{ request.META.HTTP_REFERER }}">
+                    Go Back
+                </a>
+            </form>
+        </div>
+    </div>
+{% endblock %}

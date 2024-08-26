@@ -1,0 +1,30 @@
+{% extends "layouts/b.html" %}
+
+
+{% block content %}
+    <h1 class="font-1">Edit Post</h1>
+    <div class="card p-4">
+        <div class="mb-4 flex items-center">
+            <img
+                class="size-20 object-cover rounded-xl"
+                src="{{ post.image }}" />
+            <h3 class="px-4 text-lg font-bold italic">{{ post.title }}</h3>
+        </div>
+
+        <div class="pb-2">
+            <form method="POST">
+                {% csrf_token %}
+                {{ form }}
+
+                <div class="pt-4 text-right">
+                    <button type="submit">Submit Post</button>
+                    <a
+                        class="ml-2 button secondary-action"
+                        href="{{ request.META.HTTP_REFERER }}">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
