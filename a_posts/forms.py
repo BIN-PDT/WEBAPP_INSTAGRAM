@@ -5,11 +5,15 @@ from .models import Post
 class PostCreateForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = "__all__"
-        labels = {
-            "body": "",
-        }
+        fields = ["url", "body"]
+        labels = {"url": "", "body": ""}
         widgets = {
+            "url": forms.URLInput(
+                {
+                    "placeholder": "Add an URL",
+                    "class": "italic",
+                }
+            ),
             "body": forms.Textarea(
                 {
                     "rows": 3,
