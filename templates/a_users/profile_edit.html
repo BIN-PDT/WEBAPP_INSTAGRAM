@@ -6,7 +6,7 @@
         <h1 class="mb-2 font-1">Edit Profile</h1>
         <a
             class="font-2 text-gray-500 hover:underline hover:text-red-500"
-            href="">
+            href="{% url "profile-delete" %}">
             Delete Profile
         </a>
     </div>
@@ -14,9 +14,9 @@
         <img
             id="avatar"
             class="size-36 mb-4 object-cover rounded-full"
-            src="{{ user.profile.image.url }}" />
+            src="{{ user.profile.avatar }}" />
         <div class="max-w-md font-3">
-            <h1 id="realname">{{ user.profile.realname }}</h1>
+            <h1 id="realname">{{ user.profile.name }}</h1>
             <div
                 class="mb-2 -mt-2 flex items-center justify-center gap-1 font-3 text-gray-400 !italic">
                 <img
