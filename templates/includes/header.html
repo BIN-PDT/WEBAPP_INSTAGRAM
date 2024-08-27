@@ -7,7 +7,7 @@
 	<div class="h-full flex items-center justify-between">
 		<logo>
 			<a
-				href="{% url "home" %}"
+				href="/"
 				class="flex items-center gap-2">
 				<img
 					class="w-6 mr-1 -mt-1"
@@ -51,42 +51,43 @@
 		<ul
 			x-data="{ dropdownOpen: false }"
 			class="h-full flex flex-col md:flex-row items-center justify-center gap-8 md:gap-0 nav-items font-2 title-blip [&>li>a]:w-40 md:[&>li>a]:w-auto [&>li>a]:justify-center">
-			<li>
-				<a href="">HOME</a>
-			</li>
-			<li>
-				<a href="{% url "post-create" %}">POST</a>
-			</li>
-			<li class="relative">
-				<a
-					@click="dropdownOpen = !dropdownOpen"
-					@click.away="dropdownOpen = false"
-					class="cursor-pointer">
-					USER
-					<img
-						x-bind:class="dropdownOpen && 'rotate-180 duration-300'"
-						class="w-4"
-						src="https://img.icons8.com/ios-glyphs/30/777777/expand-arrow--v1.png"
-						alt="" />
-				</a>
+			{% if user.is_authenticated %}
+				<li><a href="/">HOME</a></li>
+				<li><a href="{% url "post-create" %}">POST</a></li>
+				<li class="relative">
+					<a
+						@click="dropdownOpen = !dropdownOpen"
+						@click.away="dropdownOpen = false"
+						class="cursor-pointer">
+						{{ user.username }}
+						<img
+							x-bind:class="dropdownOpen && 'rotate-180 duration-300'"
+							class="w-4"
+							src="https://img.icons8.com/ios-glyphs/30/777777/expand-arrow--v1.png"
+							alt="" />
+					</a>
 
-				<div
-					x-cloak
-					x-show="dropdownOpen"
-					x-transition:enter="duration-300 ease-out"
-					x-transition:enter-start="opacity-0 -translate-y-5 scale-90"
-					x-transition:enter-end="opacity-100 translate-y-0 scale-100"
-					x-transition:leave="duration-150 ease-out"
-					x-transition:leave-start="opacity-100 translate-y-0 scale-100"
-					x-transition:leave-end="opacity-0 -translate-y-5 scale-90"
-					class="w-40 p-2 absolute z-20 right-0 bg-white text-black shadow rounded">
-					<ul
-						class="hover-list [&>li>a]:text-base [&>li>a]:justify-end">
-						<li><a href="">My Profile</a></li>
-						<li><a href="">Logout</a></li>
-					</ul>
-				</div>
-			</li>
+					<div
+						x-cloak
+						x-show="dropdownOpen"
+						x-transition:enter="duration-300 ease-out"
+						x-transition:enter-start="opacity-0 -translate-y-5 scale-90"
+						x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+						x-transition:leave="duration-150 ease-out"
+						x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+						x-transition:leave-end="opacity-0 -translate-y-5 scale-90"
+						class="w-40 p-2 absolute z-20 right-0 bg-white text-black shadow rounded">
+						<ul
+							class="hover-list [&>li>a]:text-base [&>li>a]:justify-end">
+							<li><a href="">My Profile</a></li>
+							<li><a href="{% url "account_logout" %}">Logout</a></li>
+						</ul>
+					</div>
+				</li>
+			{% else %}
+				<li><a href="{% url "account_login" %}">Log In</a></li>
+				<li><a href="{% url "account_signup" %}">Sign Up</a></li>
+			{% endif %}
 		</ul>
 	</nav>
 </header>
