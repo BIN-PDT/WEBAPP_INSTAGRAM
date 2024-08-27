@@ -1,3 +1,6 @@
+{% load static %}
+
+
 <aside
 	x-cloak
 	x-show="mobileSidebarOpen"
@@ -11,13 +14,14 @@
 	<!-- CATEGORIES -->
 	<section class="card p-4">
 		<h2 class="font-1">Categories</h2>
+
 		<ul class="hover-list font-3">
 			{% for category in categories %}
 				<li class="{% if category.slug == tag %}highlight{% endif %}">
 					<a href="{% url "category" category.slug %}">
 						<img
 							class="size-8 object-cover mr-3"
-							src="https://img.icons8.com/small/96/null/landscape.png"
+							src="{{ category.image.url }}"
 							alt="" />
 						<span>{{ category.name }}</span>
 					</a>
@@ -25,9 +29,16 @@
 			{% endfor %}
 		</ul>
 	</section>
-	<!-- TOP PHOTOS -->
+	<!-- TOP POSTS -->
 	<section class="card p-4">
-		<h2 class="font-1">Top Photos</h2>
+		<div class="flex items-center">
+			<img
+				class="w-7 mr-2 -mt-3"
+				src="{% static "images/fireheart_black.svg" %}"
+				alt="">
+			<h2 class="font-1">Top Posts</h2>
+		</div>
+
 		<ul class="hover-list font-3">
 			<li>
 				<a href="">
@@ -76,9 +87,16 @@
 			</li>
 		</ul>
 	</section>
-	<!-- TOP CAPTIONS -->
+	<!-- TOP COMMENTS -->
 	<section class="card p-4">
-		<h2 class="font-1">Top Captions</h2>
+		<div class="flex items-center">
+			<img
+				class="w-7 mr-2 -mt-3"
+				src="{% static "images/fireheart_black.svg" %}"
+				alt="">
+			<h2 class="font-1">Top Comments</h2>
+		</div>
+
 		<ul class="hover-list font-3">
 			<li>
 				<a href="">
