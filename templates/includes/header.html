@@ -79,7 +79,8 @@
 						class="w-40 p-2 absolute z-20 right-0 bg-white text-black shadow rounded">
 						<ul
 							class="hover-list [&>li>a]:text-base [&>li>a]:justify-end">
-							<li><a href="">My Profile</a></li>
+							<li><a href="{% url "profile" %}">My Profile</a></li>
+							<li><a href="{% url "profile-edit" %}">Edit Profile</a></li>
 							<li><a href="{% url "account_logout" %}">Logout</a></li>
 						</ul>
 					</div>
