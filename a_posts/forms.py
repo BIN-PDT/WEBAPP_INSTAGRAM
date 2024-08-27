@@ -5,8 +5,8 @@ from .models import Post
 class PostCreateForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ["url", "body"]
-        labels = {"url": "", "body": ""}
+        fields = ["url", "body", "tags"]
+        labels = {"url": "", "body": "", "tags": "Category"}
         widgets = {
             "url": forms.URLInput(
                 {
@@ -18,17 +18,18 @@ class PostCreateForm(forms.ModelForm):
                 {
                     "rows": 3,
                     "placeholder": "Add a caption...",
-                    "class": "font-1 text-4xl",
+                    "class": "font-1 text-4xl mb-0",
                 }
             ),
+            "tags": forms.CheckboxSelectMultiple(),
         }
 
 
 class PostEditForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ["body"]
-        labels = {"body": ""}
+        fields = ["body", "tags"]
+        labels = {"body": "", "tags": "Category"}
         widgets = {
             "body": forms.Textarea(
                 {
@@ -37,4 +38,5 @@ class PostEditForm(forms.ModelForm):
                     "class": "font-1 text-4xl",
                 }
             ),
+            "tags": forms.CheckboxSelectMultiple(),
         }

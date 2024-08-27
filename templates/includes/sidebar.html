@@ -12,51 +12,17 @@
 	<section class="card p-4">
 		<h2 class="font-1">Categories</h2>
 		<ul class="hover-list font-3">
-			<li class="highlight">
-				<a href="">
-					<img
-						class="size-8 object-cover mr-3"
-						src="https://img.icons8.com/small/96/null/landscape.png"
-						alt="" />
-					<span>Landscape</span>
-				</a>
-			</li>
-			<li>
-				<a href="">
-					<img
-						class="size-8 object-cover mr-3"
-						src="https://img.icons8.com/small/96/null/portrait.png"
-						alt="" />
-					<span>People</span>
-				</a>
-			</li>
-			<li>
-				<a href="">
-					<img
-						class="size-8 object-cover mr-3"
-						src="https://img.icons8.com/small/96/null/dog.png"
-						alt="" />
-					<span>Animals</span>
-				</a>
-			</li>
-			<li>
-				<a href="">
-					<img
-						class="size-8 object-cover mr-3"
-						src="https://img.icons8.com/small/96/null/collage.png"
-						alt="" />
-					<span>Abstract</span>
-				</a>
-			</li>
-			<li>
-				<a href="">
-					<img
-						class="size-8 object-cover mr-3"
-						src="https://img.icons8.com/small/96/null/180-degrees.png"
-						alt="" />
-					<span>Black & White</span>
-				</a>
-			</li>
+			{% for category in categories %}
+				<li class="{% if category.slug == tag %}highlight{% endif %}">
+					<a href="{% url "category" category.slug %}">
+						<img
+							class="size-8 object-cover mr-3"
+							src="https://img.icons8.com/small/96/null/landscape.png"
+							alt="" />
+						<span>{{ category.name }}</span>
+					</a>
+				</li>
+			{% endfor %}
 		</ul>
 	</section>
 	<!-- TOP PHOTOS -->
