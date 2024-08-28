@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post
+from .models import Post, Comment, Reply
 
 
 class PostCreateForm(forms.ModelForm):
@@ -39,4 +39,34 @@ class PostEditForm(forms.ModelForm):
                 }
             ),
             "tags": forms.CheckboxSelectMultiple(),
+        }
+
+
+class CommentCreateForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ["body"]
+        labels = {"body": ""}
+        widgets = {
+            "body": forms.TextInput(
+                {
+                    "placeholder": "Leave your comment here",
+                    "class": "placeholder:italic",
+                }
+            ),
+        }
+
+
+class ReplyCreateForm(forms.ModelForm):
+    class Meta:
+        model = Reply
+        fields = ["body"]
+        labels = {"body": ""}
+        widgets = {
+            "body": forms.TextInput(
+                {
+                    "placeholder": "Leave your reply here",
+                    "class": "text-sm placeholder:italic",
+                }
+            ),
         }

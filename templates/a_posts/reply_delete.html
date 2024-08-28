@@ -1,0 +1,29 @@
+{% extends "layouts/b.html" %}
+
+
+{% block content %}
+    <h1 class="font-1">Delete Reply</h1>
+
+    <div
+        class="card !mb-4 px-6 pt-3 text-md [&>reply]:border-t-0 [&>*>*>a]:text-sm select-none pointer-events-none">
+        {% include "a_posts/reply.html" %}
+    </div>
+
+    <p class="mb-6 font-2 text-xl">
+        Are you certain about deleting this reply?<br />
+        <span class="text-red-600">This action cannot be undone!</span>
+    </p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="text-right">
+            <button type="submit">Confirm</button>
+            <a
+                class="ml-2 button secondary-action"
+                href="{{ request.META.HTTP_REFERER }}">
+                Go Back
+            </a>
+        </div>
+    </form>
+{% endblock %}

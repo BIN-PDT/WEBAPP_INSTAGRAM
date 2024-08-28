@@ -36,3 +36,49 @@ class Tag(models.Model):
 
     class Meta:
         ordering = ["order"]
+
+
+class Comment(models.Model):
+    id = models.CharField(
+        max_length=100, primary_key=True, editable=False, default=uuid4
+    )
+    author = models.ForeignKey(
+        User, null=True, on_delete=models.SET_NULL, related_name="comments"
+    )
+    parent_post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, related_name="comments"
+    )
+    body = models.CharField(max_length=150)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        try:
+            return f"{self.author.username} : {self.body[:30]}"
+        except:
+            return f"No author : {self.body[:30]}"
+
+    class Meta:
+        ordering = ["-created"]
+
+
+class Reply(models.Model):
+    id = models.CharField(
+        max_length=100, primary_key=True, editable=False, default=uuid4
+    )
+    author = models.ForeignKey(
+        User, null=True, on_delete=models.SET_NULL, related_name="replies"
+    )
+    parent_comment = models.ForeignKey(
+        Comment, on_delete=models.CASCADE, related_name="replies"
+    )
+    body = models.CharField(max_length=150)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        try:
+            return f"{self.author.username} : {self.body[:30]}"
+        except:
+            return f"No author : {self.body[:30]}"
+
+    class Meta:
+        ordering = ["-created"]
