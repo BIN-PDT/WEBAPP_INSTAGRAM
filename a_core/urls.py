@@ -15,6 +15,7 @@ urlpatterns = [
     path("post/delete/<pk>/", post_delete_view, name="post-delete"),
     path("post/edit/<pk>/", post_edit_view, name="post-edit"),
     path("post/<pk>/", post_page_view, name="post"),
+    path("post/<pk>/like/", post_like, name="post-like"),
     path("profile/", profile_view, name="profile"),
     path("<username>/", profile_view, name="user-profile"),
     path("profile/edit/", profile_edit_view, name="profile-edit"),

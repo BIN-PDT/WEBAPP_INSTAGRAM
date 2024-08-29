@@ -16,6 +16,9 @@ class Post(models.Model):
         User, null=True, on_delete=models.SET_NULL, related_name="posts"
     )
     tags = models.ManyToManyField("Tag")
+    likes = models.ManyToManyField(
+        User, related_name="liked_posts", through="LikedPost"
+    )
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -36,6 +39,15 @@ class Tag(models.Model):
 
     class Meta:
         ordering = ["order"]
+
+
+class LikedPost(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} : {self.post.title}"
 
 
 class Comment(models.Model):
