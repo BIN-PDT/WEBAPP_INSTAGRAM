@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import Count
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import *
@@ -82,6 +83,19 @@ def post_page_view(request, pk):
     post = get_object_or_404(Post, id=pk)
     comment_form = CommentCreateForm()
     reply_form = ReplyCreateForm()
+
+    if request.htmx:
+        if "new" in request.GET:
+            comments = post.comments.all()
+        else:
+            comments = (
+                post.comments.annotate(likes_count=Count("likes"))
+                .filter(likes_count__gt=0)
+                .order_by("-likes_count")
+            )
+
+        context = {"comments": comments, "reply_form": reply_form}
+        return render(request, "snippets/filter_comments.html", context)
 
     context = {"post": post, "comment_form": comment_form, "reply_form": reply_form}
     return render(request, "a_posts/post_page.html", context)
