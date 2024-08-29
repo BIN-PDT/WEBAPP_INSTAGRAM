@@ -22,7 +22,7 @@
     {% if user.is_authenticated and user != post.author %}
         <a
             class="cursor-pointer"
-            hx-get="{% url "post-like" post.id %}"
+            hx-get="{% url "like-post" post.id %}"
             hx-target="closest div"
             hx-swap="outerHTML">
             Like{% if user in post.likes.all %}d{% endif %}

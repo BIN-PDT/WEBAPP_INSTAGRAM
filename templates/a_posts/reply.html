@@ -36,13 +36,7 @@
     <!-- INTERACTION -->
 	<div class="flex items-center gap-4 font-2 [&>a:hover]:underline">
         <!-- LIKE -->
-		<div class="flex items-center gap-1 text-gray-500">
-			<img
-				class="w-5 -mt-1"
-				src="https://img.icons8.com/small/24/000000/fire-heart.png" />
-			1
-		</div>
-		<a href="">Like</a>
+		{% include "snippets/likes_reply.html" %}
         <!-- DELETE -->
         {% if user.is_authenticated and reply.author == user %}
 		    <a href="{% url "reply-delete" reply.id %}">Delete</a>

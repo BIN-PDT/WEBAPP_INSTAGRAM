@@ -15,7 +15,6 @@ urlpatterns = [
     path("post/delete/<pk>/", post_delete_view, name="post-delete"),
     path("post/edit/<pk>/", post_edit_view, name="post-edit"),
     path("post/<pk>/", post_page_view, name="post"),
-    path("post/<pk>/like/", post_like, name="post-like"),
     path("profile/", profile_view, name="profile"),
     path("<username>/", profile_view, name="user-profile"),
     path("profile/edit/", profile_edit_view, name="profile-edit"),
@@ -25,6 +24,9 @@ urlpatterns = [
     path("comment/delete/<pk>/", comment_delete_view, name="comment-delete"),
     path("reply_sent/<pk>/", reply_sent, name="reply-sent"),
     path("reply/delete/<pk>/", reply_delete_view, name="reply-delete"),
+    path("post/like/<pk>/", post_like, name="like-post"),
+    path("comment/like/<pk>/", comment_like, name="like-comment"),
+    path("reply/like/<pk>/", reply_like, name="like-reply"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

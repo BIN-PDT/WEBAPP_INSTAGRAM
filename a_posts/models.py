@@ -61,6 +61,9 @@ class Comment(models.Model):
         Post, on_delete=models.CASCADE, related_name="comments"
     )
     body = models.CharField(max_length=150)
+    likes = models.ManyToManyField(
+        User, related_name="liked_comments", through="LikedComment"
+    )
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -71,6 +74,15 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ["-created"]
+
+
+class LikedComment(models.Model):
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} : {self.comment.body[:30]}"
 
 
 class Reply(models.Model):
@@ -84,6 +96,9 @@ class Reply(models.Model):
         Comment, on_delete=models.CASCADE, related_name="replies"
     )
     body = models.CharField(max_length=150)
+    likes = models.ManyToManyField(
+        User, related_name="liked_replies", through="LikedReply"
+    )
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -94,3 +109,12 @@ class Reply(models.Model):
 
     class Meta:
         ordering = ["-created"]
+
+
+class LikedReply(models.Model):
+    reply = models.ForeignKey(Reply, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} : {self.reply.body[:30]}"

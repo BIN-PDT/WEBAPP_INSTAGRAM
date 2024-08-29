@@ -76,7 +76,7 @@
             {% endif %}
             <!-- LIKE & OTHERS -->
             <div class="flex items-center gap-4 [&>a:hover]:underline">
-                {% include "snippets/likes.html" %}
+                {% include "snippets/likes_post.html" %}
 
                 {% if user.is_authenticated and user == post.author %}
                     <a href="{% url "post-edit" post.id %}">Edit</a>
