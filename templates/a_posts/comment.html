@@ -33,26 +33,31 @@
     <div
         x-data="{ repliesOpen: false }"
         class="px-2 flex items-center justify-between flex-wrap text-sm">
-        <!-- REPLY -->
+        <!-- REPLY TOGGLE -->
         <a
             @click="repliesOpen = !repliesOpen"
-            class="cursor-pointer font-2">
-            <div
-                class="inline-block"
-                x-bind:class="repliesOpen && 'rotate-90 duration-300'">
-                <svg
-                    transform="rotate(90)"
-                    width="9"
-                    height="9"
-                    viewBox="0 0 25 25">
-                    <path d="M24 22h-24l12-20z" />
-                </svg>
-            </div>
-            <span class="ml-1 hover:underline">
-                Repl{% if comment.replies.count > 1 %}ies{% else %}y{% endif %}
-            </span>
-            {% if comment.replies.count > 0 %}
-                <span class="ml-1 text-gray-500">{{ comment.replies.count }}</span>
+            class="flex items-center cursor-pointer font-2">
+            {% if user.is_authenticated or comment.replies.count > 0 %}
+                <div
+                    class="inline-block"
+                    x-bind:class="repliesOpen && 'rotate-90 duration-300'">
+                    <svg
+                        transform="rotate(90)"
+                        width="9"
+                        height="9"
+                        viewBox="0 0 25 25">
+                        <path d="M24 22h-24l12-20z" />
+                    </svg>
+                </div>
+
+                <div id="reply-count-{{ comment.id }}">
+                    <span class="ml-1 hover:underline">
+                        Repl{% if comment.replies.count > 1 %}ies{% else %}y{% endif %}
+                    </span>
+                    {% if comment.replies.count > 0 %}
+                        <span class="ml-1 text-gray-500">{{ comment.replies.count }}</span>
+                    {% endif %}
+                </div>
             {% endif %}
         </a>
 
@@ -64,7 +69,7 @@
                 <a href="{% url "comment-delete" comment.id %}">Delete</a>
             {% endif %}
         </div>
-        <!-- REPLY -->
+        <!-- REPLY FORM -->
         <div
             x-cloak
             x-show="repliesOpen"
@@ -73,20 +78,23 @@
                 {% include "a_posts/reply.html" %}
             {% endfor %}
 
-            <form
-                method="POST"
-                action="{% url "reply-sent" comment.id %}"
-                class="replyform flex justify-between [&>div]:w-full"
-                autocomplete="off">
-                {% csrf_token %}
-                {{ reply_form }}
+            {% if user.is_authenticated %}
+                <form
+                    hx-post="{% url "reply-sent" comment.id %}"
+                    hx-target="this"
+                    hx-swap="outerHTML"
+                    class="replyform flex justify-between [&>div]:w-full"
+                    autocomplete="off">
+                    {% csrf_token %}
+                    {{ reply_form }}
 
-                <button
-                    class="block ml-3 !px-5"
-                    type="submit">
-                    Submit
-                </button>
-            </form>
+                    <button
+                        class="block ml-3 !px-5"
+                        type="submit">
+                        Submit
+                    </button>
+                </form>
+            {% endif %}
         </div>
     </div>
 </comment>

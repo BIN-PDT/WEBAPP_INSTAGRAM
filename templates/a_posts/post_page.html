@@ -4,24 +4,28 @@
 {% block content %}
     <!-- POST -->
     {% include "a_posts/post.html" %}
-    <!-- COMMENT -->
-    <div class="card !pb-0 -mt-3">
-        <form
-            method="POST"
-            action="{% url "comment-sent" post.id %}"
-            class="flex items-center p-4 [&>div]:w-full"
-            autocomplete="off">
-            {% csrf_token %}
-            {{ comment_form }}
+    <!-- COMMENT FORM -->
+    {% if user.is_authenticated %}
+        <div class="card !pb-0 -mt-3">
+            <form
+                hx-post="{% url "comment-sent" post.id %}"
+                hx-target="#tab-contents"
+                hx-swap="afterbegin"
+                _="on htmx:afterRequest reset() me"
+                class="flex items-center p-4 [&>div]:w-full"
+                autocomplete="off">
+                {% csrf_token %}
+                {{ comment_form }}
 
-            <button
-                @click="open = false"
-                class="block ml-3 !px-5"
-                type="submit">
-                Submit
-            </button>
-        </form>
-    </div>
+                <button
+                    @click="open = false"
+                    class="block ml-3 !px-5"
+                    type="submit">
+                    Submit
+                </button>
+            </form>
+        </div>
+    {% endif %}
     <!-- COMMENT FILTER -->
     {% if post.comments.count > 0 %}
         <div class="mb-20">

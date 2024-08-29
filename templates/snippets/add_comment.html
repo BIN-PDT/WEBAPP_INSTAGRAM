@@ -1,0 +1,17 @@
+<fade-in
+	class="block -mt-20 opacity-0 ease-in-out"
+	_="on load transition my margin-top to 0 over 0.2 seconds then transition my opacity to 1 over 0.4 seconds">
+	{% include "a_posts/comment.html" %}
+</fade-in>
+
+<a
+	hx-swap-oob="true"
+	id="comment-count-{{ post.id }}"
+	href="{% url "post" post.id %}">
+	<span class="hover:underline">
+		Comment{% if post.comments.count > 1 %}s{% endif %}
+	</span>
+	{% if post.comments.count > 0 %}
+		<span class="ml-1 text-gray-500">{{ post.comments.count }}</span>
+	{% endif %}
+</a>

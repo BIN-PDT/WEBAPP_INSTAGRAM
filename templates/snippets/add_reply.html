@@ -1,0 +1,32 @@
+<fade-in
+	class="block -mt-20 opacity-0 ease-in-out"
+	_="on load transition my margin-top to 0 over 0.2 seconds then transition my opacity to 1 over 0.4 seconds">
+	{% include "a_posts/reply.html" %}
+</fade-in>
+
+<form
+	hx-post="{% url "reply-sent" comment.id %}"
+	hx-target="this"
+	hx-swap="outerHTML"
+	class="replyform flex justify-between [&>div]:w-full"
+	autocomplete="off">
+	{% csrf_token %}
+	{{ reply_form }}
+
+	<button
+		class="block ml-3 !px-5"
+		type="submit">
+		Submit
+	</button>
+</form>
+
+<div
+	hx-swap-oob="true"
+	id="reply-count-{{ comment.id }}">
+	<span class="ml-1 hover:underline">
+		Repl{% if comment.replies.count > 1 %}ies{% else %}y{% endif %}
+	</span>
+	{% if comment.replies.count > 0 %}
+		<span class="ml-1 text-gray-500">{{ comment.replies.count }}</span>
+	{% endif %}
+</div>
