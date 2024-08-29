@@ -10,10 +10,31 @@ from .forms import *
 
 def home_view(request, tag=None):
     posts = Post.objects.all() if not tag else Post.objects.filter(tags__slug=tag)
-    categories = Tag.objects.all()
 
-    context = {"posts": posts, "categories": categories, "tag": tag}
+    context = {"posts": posts, "tag": tag}
     return render(request, "a_posts/home.html", context)
+
+
+def post_page_view(request, pk):
+    post = get_object_or_404(Post, id=pk)
+    comment_form = CommentCreateForm()
+    reply_form = ReplyCreateForm()
+
+    if request.htmx:
+        if "new" in request.GET:
+            comments = post.comments.all()
+        else:
+            comments = (
+                post.comments.annotate(likes_count=Count("likes"))
+                .filter(likes_count__gt=0)
+                .order_by("-likes_count")
+            )
+
+        context = {"comments": comments, "reply_form": reply_form}
+        return render(request, "snippets/filter_comments.html", context)
+
+    context = {"post": post, "comment_form": comment_form, "reply_form": reply_form}
+    return render(request, "a_posts/post_page.html", context)
 
 
 @login_required
@@ -77,28 +98,6 @@ def post_edit_view(request, pk):
 
     context = {"post": post, "form": form}
     return render(request, "a_posts/post_edit.html", context)
-
-
-def post_page_view(request, pk):
-    post = get_object_or_404(Post, id=pk)
-    comment_form = CommentCreateForm()
-    reply_form = ReplyCreateForm()
-
-    if request.htmx:
-        if "new" in request.GET:
-            comments = post.comments.all()
-        else:
-            comments = (
-                post.comments.annotate(likes_count=Count("likes"))
-                .filter(likes_count__gt=0)
-                .order_by("-likes_count")
-            )
-
-        context = {"comments": comments, "reply_form": reply_form}
-        return render(request, "snippets/filter_comments.html", context)
-
-    context = {"post": post, "comment_form": comment_form, "reply_form": reply_form}
-    return render(request, "a_posts/post_page.html", context)
 
 
 @login_required

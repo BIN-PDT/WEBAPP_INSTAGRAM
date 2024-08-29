@@ -25,6 +25,7 @@
 			{% block content %}{% endblock %}
 		</main>
 		<!-- SIDEBAR -->
-		{% include "includes/sidebar.html" %}
+		{% load sidebar %}
+		{% sidebar_view tag %}
 	</content>
 {% endblock %}

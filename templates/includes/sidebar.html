@@ -39,52 +39,49 @@
 			<h2 class="font-1">Top Posts</h2>
 		</div>
 
-		<ul class="hover-list font-3">
-			<li>
-				<a href="">
-					<img
-						class="size-10 rounded-lg object-cover mr-3"
-						src="https://live.staticflickr.com/65535/50618365686_36f887ab88_c.jpg" />
-					<span>Homer</span>
-					<div class="ml-auto flex items-center gap-1">
-						<span class="text-gray-500">100</span>
-						<img
-							class="w-5 -mt-1"
-							src="https://img.icons8.com/small/24/000000/fire-heart.png"
-							alt="" />
-					</div>
-				</a>
-			</li>
-			<li>
-				<a href="">
-					<img
-						class="size-10 rounded-lg object-cover mr-3"
-						src="https://live.staticflickr.com/65535/50618365686_36f887ab88_c.jpg" />
-					<span>Homer</span>
-					<div class="ml-auto flex items-center gap-1">
-						<span class="text-gray-500">10</span>
-						<img
-							class="w-5 -mt-1"
-							src="https://img.icons8.com/small/24/000000/fire-heart.png"
-							alt="" />
-					</div>
-				</a>
-			</li>
-			<li>
-				<a href="">
-					<img
-						class="size-10 rounded-lg object-cover mr-3"
-						src="https://live.staticflickr.com/65535/50618365686_36f887ab88_c.jpg" />
-					<span>Homer</span>
-					<div class="ml-auto flex items-center gap-1">
-						<span class="text-gray-500">1</span>
-						<img
-							class="w-5 -mt-1"
-							src="https://img.icons8.com/small/24/000000/fire-heart.png"
-							alt="" />
-					</div>
-				</a>
-			</li>
+		<ul class="hover-list font-2">
+			{% for post in top_posts %}
+				<li>
+					<a
+						href="{% url "post" post.id %}"
+						class="flex items-stretch justify-between">
+						<div class="flex items-center truncate">
+							<!-- POST IMAGE -->
+							<img
+								class="mr-2 size-10 rounded-lg object-cover shrink-0"
+								src="{{ post.image }}" />
+							<!-- AUTHOR INFORMATION -->
+							{% if post.author %}
+								<img
+									class="mr-1 size-6 object-cover rounded-full"
+									src="{{ post.author.profile.avatar }}" />
+								<span>{{ post.author.username }}</span>
+							{% else %}
+								<img
+									class="mr-1 size-6 object-cover rounded-full"
+									src="{% static "images/avatar_default.svg" %}"
+									alt="" />
+								<span>No author</span>
+							{% endif %}
+						</div>
+						<!-- POST INTERACTION -->
+						<div class="ml-2 flex items-center gap-1 shrink-0 text-gray-500">
+							<span>{{ post.likes.count }}</span>
+							{% if user in post.likes.all %}
+								<img
+									class="w-4 -mt-1"
+									src="{% static "images/fireheart_red.svg" %}"
+									alt="" />
+							{% else %}
+								<img
+									class="w-4 -mt-1"
+									src="{% static "images/fireheart.svg" %}"
+									alt="" />
+							{% endif %}
+						</div>
+					</a>
+				</li>
+			{% endfor %}
 		</ul>
 	</section>
 	<!-- TOP COMMENTS -->
@@ -97,52 +94,49 @@
 			<h2 class="font-1">Top Comments</h2>
 		</div>
 
-		<ul class="hover-list font-3">
-			<li>
-				<a href="">
-					<img
-						class="size-8 rounded-full object-cover mr-3"
-						src="https://img.icons8.com/glyph-neue/100/quill-pen.png" />
-					<span>Homer</span>
-					<div class="ml-auto flex items-center gap-1">
-						<span class="text-gray-500">100</span>
-						<img
-							class="w-5 -mt-1"
-							src="https://img.icons8.com/small/24/000000/fire-heart.png"
-							alt="" />
-					</div>
-				</a>
-			</li>
-			<li>
-				<a href="">
-					<img
-						class="size-8 rounded-full object-cover mr-3"
-						src="https://img.icons8.com/glyph-neue/100/quill-pen.png" />
-					<span>Homer</span>
-					<div class="ml-auto flex items-center gap-1">
-						<span class="text-gray-500">10</span>
-						<img
-							class="w-5 -mt-1"
-							src="https://img.icons8.com/small/24/000000/fire-heart.png"
-							alt="" />
-					</div>
-				</a>
-			</li>
-			<li>
-				<a href="">
-					<img
-						class="size-8 rounded-full object-cover mr-3"
-						src="https://img.icons8.com/glyph-neue/100/quill-pen.png" />
-					<span>Homer</span>
-					<div class="ml-auto flex items-center gap-1">
-						<span class="text-gray-500">1</span>
-						<img
-							class="w-5 -mt-1"
-							src="https://img.icons8.com/small/24/000000/fire-heart.png"
-							alt="" />
-					</div>
-				</a>
-			</li>
+		<ul class="hover-list font-2">
+			{% for comment in top_comments %}
+				<li>
+					<a
+						href="{% url "post" comment.parent_post.id %}"
+						class="flex items-stretch justify-between">
+						<div class="flex items-center truncate">
+							<!-- POST IMAGE -->
+							<img
+								class="mr-2 size-10 rounded-lg object-cover shrink-0"
+								src="{{ comment.parent_post.image }}" />
+							<!-- AUTHOR INFORMATION -->
+							{% if comment.author %}
+								<img
+									class="mr-1 size-6 object-cover rounded-full"
+									src="{{ comment.author.profile.avatar }}" />
+								<span>{{ comment.author.username }}</span>
+							{% else %}
+								<img
+									class="mr-1 size-6 object-cover rounded-full"
+									src="{% static "images/avatar_default.svg" %}"
+									alt="" />
+								<span>No author</span>
+							{% endif %}
+						</div>
+						<!-- POST INTERACTION -->
+						<div class="ml-2 flex items-center gap-1 shrink-0 text-gray-500">
+							<span>{{ comment.likes.count }}</span>
+							{% if user in comment.likes.all %}
+								<img
+									class="w-4 -mt-1"
+									src="{% static "images/fireheart_red.svg" %}"
+									alt="" />
+							{% else %}
+								<img
+									class="w-4 -mt-1"
+									src="{% static "images/fireheart.svg" %}"
+									alt="" />
+							{% endif %}
+						</div>
+					</a>
+				</li>
+			{% endfor %}
 		</ul>
 	</section>
 </aside>
