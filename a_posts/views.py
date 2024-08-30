@@ -1,17 +1,29 @@
 import requests
 from bs4 import BeautifulSoup
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Count
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from .models import *
 from .forms import *
 
 
 def home_view(request, tag=None):
     posts = Post.objects.all() if not tag else Post.objects.filter(tags__slug=tag)
+    paginator = Paginator(posts, 3)
+    page = int(request.GET.get("page", 1))
 
-    context = {"posts": posts, "tag": tag}
+    if page <= paginator.num_pages:
+        posts = paginator.page(page)
+    else:
+        return HttpResponse("")
+
+    context = {"posts": posts, "tag": tag, "page": page}
+
+    if request.htmx:
+        return render(request, "snippets/infinite_posts.html", context)
     return render(request, "a_posts/home.html", context)
 
 
