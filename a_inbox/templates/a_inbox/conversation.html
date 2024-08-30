@@ -1,0 +1,70 @@
+<div
+	id="conversation"
+	class="col-span-4 sm:col-span-3 opacity-0 flex flex-col bg-white rounded-r-2xl pt-10 relative overflow-y-auto"
+	_="on load wait for 5ms then remove .opacity-0">
+    <!-- PARTICIPANTS -->
+	<div class="text-center flex flex-col items-center">
+        {% for participant in conversation.participants.all %}
+            {% if participant != user %}
+                <a href="{% url "user-profile" participant.username %}">
+                    <img
+                        class="size-24 rounded-full object-cover mb-2"
+                        src="{{ participant.profile.avatar }}" />
+                </a>
+                <div class="text-center max-w-md">
+                    <h1 class="font-3 text-lg">{{ participant.profile.name }}</h1>
+                    <div class="mb-2 -mt-5 text-gray-400 text-sm italic">@{{ participant.username }}</div>
+                </div>
+            {% endif %}
+        {% endfor %}
+	</div>
+    <!-- CONVERSATION -->
+    {% if conversation %}
+        <ul
+            id="inbox_messages"
+            class="flex flex-col justify-end grow gap-6 p-4 sm:p-10 pb-0">
+            {% for message in conversation.messages.all reversed %}
+                <li>
+                    <div class="flex flex-col md:flex-row gap-1 md:gap-6">
+                        <a
+                            class="contents"
+                            href="{% url "user-profile" message.sender.username %}">
+                            <img
+                                class="size-14 object-cover rounded-full"
+                                src="{{ message.sender.profile.avatar }}" />
+                        </a>
+                        <div
+                            class="bg-white p-4 w-full rounded-xl border-2 border-gray-200">
+                            <div
+                                class="flex flex-col md:flex-row justify-between text-xs pb-3 text-zinc-500">
+                                <div>
+                                    <span class="font-3 text-base text-black mr-1">
+                                        {{ message.sender.profile.name }}
+                                    </span>
+                                    <span class="italic">@{{ message.sender.username }}</span>
+                                </div>
+                                <div class="italic">{{ message.created }} ({{ message.created|timesince }})</div>
+                            </div>
+                            <div>{{ message.body }}</div>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <div class="sticky bottom-0 z-1 px-4 sm:px-10 pt-6 pb-10 flex bg-white">
+            <a
+                href=""
+                class="flex cursor-pointer items-center gap-2 bg-gray-800 hover:bg-indigo-600 text-white rounded-full px-6 pr-8 py-3">
+                <img
+                    class="size-5"
+                    src="https://img.icons8.com/material/96/ffffff/reply-arrow--v1.png" />
+                <div class="font-2 text-white">Reply</div>
+            </a>
+        </div>
+    {% else %}
+        <div class="h-full -mt-6 p-10 flex items-center justify-center font-2 text-gray-500 text-lg tracking-wide">
+            Select a conversation or create a new message
+        </div>
+    {% endif %}
+</div>

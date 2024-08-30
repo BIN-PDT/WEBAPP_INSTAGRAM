@@ -54,6 +54,7 @@
 			{% if user.is_authenticated %}
 				<li><a href="/">HOME</a></li>
 				<li><a href="{% url "post-create" %}">POST</a></li>
+				<li><a href="{% url "inbox" %}">INBOX</a></li>
 				<li class="relative">
 					<a
 						@click="dropdownOpen = !dropdownOpen"

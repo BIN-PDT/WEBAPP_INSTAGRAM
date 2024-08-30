@@ -1,0 +1,20 @@
+<ul
+	id="conversations-list"
+	class="flex flex-col gap-1 divide-y mt-2">
+    {% for c in list_conversations %}
+        <li class="rounded-full sm:rounded-lg relative mt-2 sm:mt-0 {% if c == conversation %}bg-zinc-200{% endif %}">
+            {% for participant in c.participants.all %}
+                {% if participant != user %}
+                    <a
+                        href="{% url "inbox" c.id %}"
+                        class="flex items-center justify-center lg:justify-normal gap-1 hover:bg-zinc-200 rounded-full sm:rounded-lg p-1.5 sm:p-4 cursor-pointer">
+                        <img
+                            class="size-11 lg:size-10 object-cover rounded-full"
+                            src="{{ participant.profile.avatar }}" />
+                        <div class="ml-1 hidden lg:block font-3">{{ participant.profile.name }}</div>
+                    </a>
+                {% endif %}
+            {% endfor %}
+        </li>
+    {% endfor %}
+</ul>
