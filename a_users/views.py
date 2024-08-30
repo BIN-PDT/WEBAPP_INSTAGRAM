@@ -1,5 +1,6 @@
 from django.http import Http404
 from django.urls import reverse
+from django.db.models import Count
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
@@ -7,6 +8,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import *
 from .forms import *
+from a_posts.forms import ReplyCreateForm
 
 
 def profile_view(request, username=None):
@@ -17,8 +19,40 @@ def profile_view(request, username=None):
             profile = request.user.profile
         except:
             raise Http404()
+    posts = profile.user.posts.all()
 
-    return render(request, "a_users/profile.html", {"profile": profile})
+    if request.htmx:
+        if "top-posts" in request.GET:
+            posts = (
+                profile.user.posts.annotate(likes_count=Count("likes"))
+                .filter(likes__isnull=False)
+                .order_by("-likes_count")
+            )
+
+            template = "snippets/profile_filter_posts.html"
+            context = {"posts": posts}
+        elif "top-comments" in request.GET:
+            comments = (
+                profile.user.comments.annotate(likes_count=Count("likes"))
+                .filter(likes__isnull=False)
+                .order_by("-likes_count")
+            )
+
+            template = "snippets/profile_filter_comments.html"
+            context = {"comments": comments, "reply_form": ReplyCreateForm()}
+        elif "liked-posts" in request.GET:
+            posts = profile.user.liked_posts.order_by("-likedpost__created")
+
+            template = "snippets/profile_filter_posts.html"
+            context = {"posts": posts}
+        else:
+            template = "snippets/profile_filter_posts.html"
+            context = {"posts": posts}
+
+        return render(request, template, context)
+
+    context = {"profile": profile, "posts": posts}
+    return render(request, "a_users/profile.html", context)
 
 
 @login_required
