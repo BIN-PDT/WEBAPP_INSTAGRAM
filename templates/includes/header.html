@@ -54,7 +54,15 @@
 			{% if user.is_authenticated %}
 				<li><a href="/">HOME</a></li>
 				<li><a href="{% url "post-create" %}">POST</a></li>
-				<li><a href="{% url "inbox" %}">INBOX</a></li>
+				<li class="relative">
+					<div
+						hx-get="{% url "notify-inbox" %}"
+						hx-trigger="load"
+						hx-target="this"
+						hx-swap="innerHTML"
+						class="absolute top-1 right-1"></div>
+					<a href="{% url "inbox" %}">INBOX</a>
+				</li>
 				<li class="relative">
 					<a
 						@click="dropdownOpen = !dropdownOpen"

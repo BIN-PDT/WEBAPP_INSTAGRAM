@@ -5,9 +5,15 @@
         <li class="rounded-full sm:rounded-lg relative mt-2 sm:mt-0 {% if c == conversation %}bg-zinc-200{% endif %}">
             {% for participant in c.participants.all %}
                 {% if participant != user %}
-                    <a
-                        href="{% url "inbox" c.id %}"
-                        class="flex items-center justify-center lg:justify-normal gap-1 hover:bg-zinc-200 rounded-full sm:rounded-lg p-1.5 sm:p-4 cursor-pointer">
+                <a
+                    href="{% url "inbox" c.id %}"
+                    class="flex items-center justify-center lg:justify-normal gap-1 hover:bg-zinc-200 rounded-full sm:rounded-lg p-1.5 sm:p-4 cursor-pointer">
+                        <div
+                            hx-get="{% url "notify-message" c.id %}"
+                            hx-trigger="load"
+                            hx-target="this"
+                            hx-swap="innerHTML"
+                            class="absolute top-3 left-11 [&>*]:border-2 [&>*]:border-gray-100"></div>
                         <img
                             class="size-11 lg:size-10 object-cover rounded-full"
                             src="{{ participant.profile.avatar }}" />

@@ -12,6 +12,11 @@ def inbox_view(request, conversation_id=None):
     list_conversations = Conversation.objects.filter(participants=request.user)
     if conversation_id:
         conversation = get_object_or_404(list_conversations, id=conversation_id)
+        # SEEN MESSAGE.
+        lastest_message = conversation.messages.first()
+        if not conversation.is_seen and lastest_message.sender != request.user:
+            conversation.is_seen = True
+            conversation.save()
     else:
         conversation = None
 
@@ -51,6 +56,7 @@ def new_message(request, recipient_id):
                     message.conversation = conversation
                     message.save()
                     conversation.lastmessage_created = timezone.now()
+                    conversation.is_seen = False
                     conversation.save()
                     return redirect("inbox", conversation.id)
 
@@ -78,8 +84,29 @@ def new_reply(request, conversation_id):
             message.conversation = conversation
             message.save()
             conversation.lastmessage_created = timezone.now()
+            conversation.is_seen = False
             conversation.save()
             return redirect("inbox", conversation_id)
 
     context = {"conversation": conversation, "form": form}
     return render(request, "a_inbox/form_new_reply.html", context)
+
+
+def notify_message(request, conversation_id):
+    conversation = get_object_or_404(Conversation, id=conversation_id)
+    lastest_message = conversation.messages.first()
+
+    if not conversation.is_seen and lastest_message.sender != request.user:
+        return render(request, "a_inbox/notify_icon.html")
+    else:
+        return HttpResponse("")
+
+
+def notify_inbox(request):
+    user = request.user
+    list_conversations = Conversation.objects.filter(participants=user, is_seen=False)
+    for conversation in list_conversations:
+        lastest_message = conversation.messages.first()
+        if lastest_message.sender != user:
+            return render(request, "a_inbox/notify_icon.html")
+    return HttpResponse("")
