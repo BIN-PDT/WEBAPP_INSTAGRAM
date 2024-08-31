@@ -1,6 +1,6 @@
 <ul
 	id="conversations-list"
-	class="flex flex-col gap-1 divide-y mt-2">
+	class="flex flex-col gap-1 mt-2">
     {% for c in list_conversations %}
         <li class="rounded-full sm:rounded-lg relative mt-2 sm:mt-0 {% if c == conversation %}bg-zinc-200{% endif %}">
             {% for participant in c.participants.all %}

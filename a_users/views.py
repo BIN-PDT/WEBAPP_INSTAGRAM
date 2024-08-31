@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from .models import *
 from .forms import *
 from a_posts.forms import ReplyCreateForm
+from a_inbox.forms import InboxNewMessageForm
 
 
 def profile_view(request, username=None):
@@ -20,6 +21,7 @@ def profile_view(request, username=None):
         except:
             raise Http404()
     posts = profile.user.posts.all()
+    form = InboxNewMessageForm()
 
     if request.htmx:
         if "top-posts" in request.GET:
@@ -51,7 +53,7 @@ def profile_view(request, username=None):
 
         return render(request, template, context)
 
-    context = {"profile": profile, "posts": posts}
+    context = {"profile": profile, "posts": posts, "form": form}
     return render(request, "a_users/profile.html", context)
 
 

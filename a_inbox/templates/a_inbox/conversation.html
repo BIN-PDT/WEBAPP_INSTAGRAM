@@ -54,7 +54,9 @@
 
         <div class="sticky bottom-0 z-1 px-4 sm:px-10 pt-6 pb-10 flex bg-white">
             <a
-                href=""
+                hx-get="{% url "new-reply" conversation.id %}"
+                hx-target="this"
+                hx-swap="outerHTML scroll:#conversation:bottom"
                 class="flex cursor-pointer items-center gap-2 bg-gray-800 hover:bg-indigo-600 text-white rounded-full px-6 pr-8 py-3">
                 <img
                     class="size-5"

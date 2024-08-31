@@ -1,0 +1,26 @@
+<div class="w-screen lg:w-full mb-5 flex gap-3 items-center">
+    <span class="font-2 text-lg">To</span>
+    <div class="flex items-center gap-1">
+        <img class="size-10 mr-1 object-cover rounded-full" src="{{ recipient.profile.avatar }}">
+        <div >
+            <span class="font-3">{{ recipient.profile.name }}</span>
+            <span class="text-xs font-normal text-zinc-500 italic">@{{ recipient.username }}</span>
+        </div>
+    </div>
+</div>
+
+<div class="mb-2">
+    <form method="POST" action="{% url "new-message" recipient.id %}">
+        {% csrf_token %}
+        {{ form }}
+
+        <div class="mt-3.5 text-right">
+            <button type="submit" class="mt-1">Submit Message</button>
+            <a 
+                href="{{ request.META_HTTP_REFERER }}"
+                class="ml-1 button secondary-action cursor-pointer"
+                @click="modal_open = false"
+                _="on click reset() the closest <form/>">Cancel</a>
+        </div>
+    </form>
+</div>

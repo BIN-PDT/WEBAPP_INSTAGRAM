@@ -1,0 +1,27 @@
+<h3
+	class="w-screen lg:w-full mb-4 font-2 text-xl"
+	id="modal-title">
+	New Message
+</h3>
+
+<div id="new-message">
+    <!-- SEARCH FORM -->
+	<div class="flex gap-3 items-center">
+		<span class="font-2 text-lg">To</span>
+		<input
+			class="p-3 font-3"
+			placeholder="Enter username or name"
+			type="text"
+			name="search_user"
+            hx-get="{% url "search-users" %}"
+            hx-trigger="keyup changed"
+            hx-target="#search-results"
+            hx-swap="innerHTML" />
+	</div>
+    <!-- SEARCH RESULT -->
+	<div
+		id="search-results"
+		class="block h-60 overflow-y-auto">
+        {% include "a_inbox/user_search_result.html" %}
+	</div>
+</div>

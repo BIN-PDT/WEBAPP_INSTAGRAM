@@ -1,0 +1,21 @@
+<ul
+	id="user-list"
+	class="mt-2">
+    {% for user in users %}
+        <li>
+            <a
+                hx-get="{% url "new-message" user.id %}"
+                hx-target="#new-message"
+                hx-swap="innerHTML"
+                class="flex items-center gap-1 hover:bg-zinc-100 rounded-lg p-2 cursor-pointer">
+                <img
+                    class="size-10 mr-1 object-cover rounded-full"
+                    src="{{ user.profile.avatar }}" />
+                <div >
+                    <span class="font-3">{{ user.profile.name }}</span>
+                    <span class="text-xs font-normal text-zinc-500 italic">@{{ user.username }}</span>
+                </div>
+            </a>
+        </li>
+    {% endfor %}
+</ul>
