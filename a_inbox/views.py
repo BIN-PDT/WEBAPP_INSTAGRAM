@@ -114,7 +114,11 @@ def notify_message(request, conversation_id):
     conversation = get_object_or_404(Conversation, id=conversation_id)
     lastest_message = conversation.messages.first()
 
-    if not conversation.is_seen and lastest_message.sender != request.user:
+    if (
+        not conversation.is_seen
+        and lastest_message
+        and lastest_message.sender != request.user
+    ):
         return render(request, "a_inbox/notify_icon.html")
     else:
         return HttpResponse("")
@@ -125,6 +129,6 @@ def notify_inbox(request):
     list_conversations = Conversation.objects.filter(participants=user, is_seen=False)
     for conversation in list_conversations:
         lastest_message = conversation.messages.first()
-        if lastest_message.sender != user:
+        if lastest_message and lastest_message.sender != user:
             return render(request, "a_inbox/notify_icon.html")
     return HttpResponse("")
