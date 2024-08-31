@@ -1,3 +1,5 @@
+from cryptography.fernet import Fernet
+from django.conf import settings
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
@@ -5,6 +7,9 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from .models import *
 from .forms import *
+
+
+f = Fernet(settings.ENCRYPT_KEY)
 
 
 @login_required
@@ -50,6 +55,12 @@ def new_message(request, recipient_id):
         if form.is_valid():
             message = form.save(commit=False)
             message.sender = request.user
+            # ENCRYPT MESSAGE.
+            message_original = form.cleaned_data["body"]
+            message_bytes = message_original.encode("utf-8")
+            message_encrypted = f.encrypt(message_bytes)
+            message_decoded = message_encrypted.decode("utf-8")
+            message.body = message_decoded
 
             for conversation in request.user.conversations.all():
                 if recipient in conversation.participants.all():
@@ -62,10 +73,10 @@ def new_message(request, recipient_id):
 
             new_conversation = Conversation.objects.create()
             new_conversation.participants.add(request.user, recipient)
-            new_message.save()
+            new_conversation.save()
             message.conversation = new_conversation
             message.save()
-            return redirect("inbox", conversation.id)
+            return redirect("inbox", new_conversation.id)
 
     context = {"recipient": recipient, "form": form}
     return render(request, "a_inbox/form_new_message.html", context)
@@ -81,6 +92,13 @@ def new_reply(request, conversation_id):
         if form.is_valid():
             message = form.save(commit=False)
             message.sender = request.user
+            # ENCRYPT MESSAGE.
+            message_original = form.cleaned_data["body"]
+            message_bytes = message_original.encode("utf-8")
+            message_encrypted = f.encrypt(message_bytes)
+            message_decoded = message_encrypted.decode("utf-8")
+            message.body = message_decoded
+
             message.conversation = conversation
             message.save()
             conversation.lastmessage_created = timezone.now()

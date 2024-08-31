@@ -45,7 +45,7 @@
                                 </div>
                                 <div class="italic">{{ message.created }} ({{ message.created|timesince }})</div>
                             </div>
-                            <div>{{ message.body }}</div>
+                            <div><p class="whitespace-pre-wrap">{{ message.content_decrypted }}</p></div>
                         </div>
                     </div>
                 </li>
