@@ -6,7 +6,7 @@ class PostCreateForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ["url", "body", "tags"]
-        labels = {"url": "", "body": "", "tags": "Category"}
+        labels = {"url": "", "body": "", "tags": ""}
         widgets = {
             "url": forms.URLInput(
                 {
@@ -18,7 +18,7 @@ class PostCreateForm(forms.ModelForm):
                 {
                     "rows": 3,
                     "placeholder": "Add a caption...",
-                    "class": "font-1 text-4xl mb-0",
+                    "class": "mb-0 font-1 text-4xl",
                 }
             ),
             "tags": forms.CheckboxSelectMultiple(),
@@ -35,7 +35,7 @@ class PostEditForm(forms.ModelForm):
                 {
                     "rows": 3,
                     "placeholder": "Add a caption...",
-                    "class": "font-1 text-4xl",
+                    "class": "mb-0 font-1 text-4xl",
                 }
             ),
             "tags": forms.CheckboxSelectMultiple(),

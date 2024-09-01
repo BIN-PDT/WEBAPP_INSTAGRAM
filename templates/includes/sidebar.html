@@ -13,9 +13,7 @@
 	class="md:!block col-span-full md:col-span-1 mx-[5%] md:mr-[20%] order-1 md:order-2">
 	<!-- CATEGORIES -->
 	<section class="card p-4">
-		<h2 class="font-1">Categories</h2>
-
-		<ul class="hover-list font-3">
+		<ul class="hover-list font-2 tracking-wide">
 			{% for category in categories %}
 				<li class="{% if category.slug == tag %}highlight{% endif %}">
 					<a href="{% url "category" category.slug %}">
@@ -23,7 +21,7 @@
 							class="size-8 object-cover mr-3"
 							src="{{ category.image.url }}"
 							alt="" />
-						<span>{{ category.name }}</span>
+						<span class="text-base">{{ category.name }}</span>
 					</a>
 				</li>
 			{% endfor %}
@@ -36,11 +34,11 @@
 				class="w-7 mr-2 -mt-3"
 				src="{% static "images/fireheart_black.svg" %}"
 				alt="">
-			<h2 class="font-1">Top Posts</h2>
+			<h2 class="font-1">Top Trending</h2>
 		</div>
 
 		<ul class="hover-list font-2">
-			{% for post in top_posts %}
+			{% for post in top_posts|slice:":4" %}
 				<li>
 					<a
 						href="{% url "post" post.id %}"
@@ -48,7 +46,7 @@
 						<div class="flex items-center truncate">
 							<!-- POST IMAGE -->
 							<img
-								class="mr-2 size-10 rounded-lg object-cover shrink-0"
+								class="mr-2 {% if forloop.first %}size-16{% else %}size-10{% endif %}  rounded-lg object-cover shrink-0"
 								src="{{ post.image }}" />
 							<!-- AUTHOR INFORMATION -->
 							{% if post.author %}
@@ -68,61 +66,6 @@
 						<div class="ml-2 flex items-center gap-1 shrink-0 text-gray-500">
 							<span>{{ post.likes.count }}</span>
 							{% if user in post.likes.all %}
-								<img
-									class="w-4 -mt-1"
-									src="{% static "images/fireheart_red.svg" %}"
-									alt="" />
-							{% else %}
-								<img
-									class="w-4 -mt-1"
-									src="{% static "images/fireheart.svg" %}"
-									alt="" />
-							{% endif %}
-						</div>
-					</a>
-				</li>
-			{% endfor %}
-		</ul>
-	</section>
-	<!-- TOP COMMENTS -->
-	<section class="card p-4">
-		<div class="flex items-center">
-			<img
-				class="w-7 mr-2 -mt-3"
-				src="{% static "images/fireheart_black.svg" %}"
-				alt="">
-			<h2 class="font-1">Top Comments</h2>
-		</div>
-
-		<ul class="hover-list font-2">
-			{% for comment in top_comments %}
-				<li>
-					<a
-						href="{% url "post" comment.parent_post.id %}"
-						class="flex items-stretch justify-between">
-						<div class="flex items-center truncate">
-							<!-- POST IMAGE -->
-							<img
-								class="mr-2 size-10 rounded-lg object-cover shrink-0"
-								src="{{ comment.parent_post.image }}" />
-							<!-- AUTHOR INFORMATION -->
-							{% if comment.author %}
-								<img
-									class="mr-1 size-6 object-cover rounded-full"
-									src="{{ comment.author.profile.avatar }}" />
-								<span>{{ comment.author.username }}</span>
-							{% else %}
-								<img
-									class="mr-1 size-6 object-cover rounded-full"
-									src="{% static "images/avatar_default.svg" %}"
-									alt="" />
-								<span>No author</span>
-							{% endif %}
-						</div>
-						<!-- POST INTERACTION -->
-						<div class="ml-2 flex items-center gap-1 shrink-0 text-gray-500">
-							<span>{{ comment.likes.count }}</span>
-							{% if user in comment.likes.all %}
 								<img
 									class="w-4 -mt-1"
 									src="{% static "images/fireheart_red.svg" %}"
