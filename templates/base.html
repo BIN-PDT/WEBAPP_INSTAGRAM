@@ -322,19 +322,19 @@
 				background-color: var(--black);
 			}
 
-			.replyform {
+			.reply-form {
 				border-top: none;
 			}
 
-			.replyform textarea,
-			.replyform input {
+			.reply-form textarea,
+			.reply-form input {
 				padding: 0.75rem 1rem;
 				font-size: 1rem;
 				margin-bottom: 0px;
 				height: 3.2rem;
 			}
 
-			.replyform button {
+			.reply-form button {
 				margin-left: 0.5rem;
 				min-height: unset;
 			}
@@ -354,6 +354,60 @@
 
 			#profile article p {
 				@apply truncate leading-normal;
+			}
+
+			.allauth {
+				@apply !p-7;
+			}
+
+			.allauth a {
+				@apply hover:underline;
+			}
+
+			.allauth > h1 {
+				font-family: var(--font-1);
+				@apply text-center;
+			}
+
+			.allauth > p {
+				font-family: var(--font-2);
+				@apply text-xl text-center tracking-wide;
+			}
+
+			.allauth > p > a {
+				@apply text-blue-400;
+			}
+
+			.allauth #id_password_helptext {
+				font-family: var(--font-2);
+				@apply absolute right-0 -bottom-11 ml-auto z-10;
+			}
+
+			.allauth > form > p {
+				@apply relative;
+			}
+
+			.allauth > form > p > label {
+				@apply hidden;
+			}
+
+			.allauth > form > p > label[for="id_remember"] {
+				font-family: var(--font-2);
+				@apply block text-base not-italic;
+			}
+
+			.allauth > form > p > input {
+				font-family: var(--font-3);
+				@apply placeholder:italic;
+			}
+
+			.allauth > form > ul,
+			.allauth > form > ul + p {
+				@apply hidden;
+			}
+
+			.allauth > form > button {
+				@apply block mt-10 mx-auto px-8;
 			}
 		</style>
 	</head>

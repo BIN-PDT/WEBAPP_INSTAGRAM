@@ -8,7 +8,7 @@
 	hx-post="{% url "reply-sent" comment.id %}"
 	hx-target="this"
 	hx-swap="outerHTML"
-	class="replyform flex justify-between [&>div]:w-full"
+	class="reply-form flex justify-between [&>div]:w-full"
 	autocomplete="off">
 	{% csrf_token %}
 	{{ reply_form }}
