@@ -11,8 +11,8 @@
                         class="size-24 rounded-full object-cover mb-2"
                         src="{{ participant.profile.avatar }}" />
                 </a>
-                <div class="text-center max-w-md">
-                    <h1 class="font-3 text-lg">{{ participant.profile.name }}</h1>
+                <div class="max-w-md font-4 text-center">
+                    <h1 class="text-xl">{{ participant.profile.name }}</h1>
                     <div class="mb-2 -mt-5 text-gray-400 text-sm italic">@{{ participant.username }}</div>
                 </div>
             {% endif %}
@@ -36,16 +36,16 @@
                         <div
                             class="bg-white p-4 w-full rounded-xl border-2 border-gray-200">
                             <div
-                                class="flex flex-col md:flex-row justify-between text-xs pb-3 text-zinc-500">
+                                class="pb-3 flex flex-col md:flex-row justify-between font-4 text-sm text-zinc-500">
                                 <div>
-                                    <span class="font-3 text-base text-black mr-1">
+                                    <span class="mr-1 text-base !font-bold text-black">
                                         {{ message.sender.profile.name }}
                                     </span>
-                                    <span class="italic">@{{ message.sender.username }}</span>
+                                    <span class="!italic">@{{ message.sender.username }}</span>
                                 </div>
                                 <div class="italic">{{ message.created }} ({{ message.created|timesince }})</div>
                             </div>
-                            <div><p class="whitespace-pre-wrap">{{ message.content_decrypted }}</p></div>
+                            <p class="font-4 whitespace-pre-wrap">{{ message.content_decrypted }}</p>
                         </div>
                     </div>
                 </li>

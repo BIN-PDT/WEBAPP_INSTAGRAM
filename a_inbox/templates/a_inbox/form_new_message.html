@@ -1,10 +1,10 @@
 <div class="w-screen lg:w-full mb-5 flex gap-3 items-center">
     <span class="font-2 text-lg">To</span>
-    <div class="flex items-center gap-1">
+    <div class="flex items-center gap-1 font-4">
         <img class="size-10 mr-1 object-cover rounded-full" src="{{ recipient.profile.avatar }}">
         <div >
-            <span class="font-3">{{ recipient.profile.name }}</span>
-            <span class="text-xs font-normal text-zinc-500 italic">@{{ recipient.username }}</span>
+            <span class="font-bold">{{ recipient.profile.name }}</span>
+            <span class="text-sm font-normal text-zinc-500 italic">@{{ recipient.username }}</span>
         </div>
     </div>
 </div>
