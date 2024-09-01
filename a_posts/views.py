@@ -60,26 +60,30 @@ def post_create_view(request):
 
             website = requests.get(form.data["url"])
             source = BeautifulSoup(website.text, "html.parser")
-            # GET IMAGE URL.
-            image_result = source.select(
-                'meta[content^="https://live.staticflickr.com/"]'
-            )
-            image = image_result[0]["content"]
-            post.image = image
-            # GET IMAGE TITLE.
-            title_result = source.select("h1.photo-title")
-            title = title_result[0].text.strip()
-            post.title = title
-            # GET IMAGE ARTIST.
-            artist_result = source.select("a.owner-name")
-            artist = artist_result[0].text.strip()
-            post.artist = artist
-            # LINK TO USER.
-            post.author = request.user
+            try:
+                # GET IMAGE URL.
+                image_result = source.select(
+                    'meta[content^="https://live.staticflickr.com/"]'
+                )
+                image = image_result[0]["content"]
+                post.image = image
+                # GET IMAGE TITLE.
+                title_result = source.select("h1.photo-title")
+                title = title_result[0].text.strip()
+                post.title = title
+                # GET IMAGE ARTIST.
+                artist_result = source.select("a.owner-name")
+                artist = artist_result[0].text.strip()
+                post.artist = artist
+            except:
+                messages.error(request, "The url is not a flickr image url!")
+            else:
+                # LINK TO USER.
+                post.author = request.user
 
-            post.save()
-            form.save_m2m()
-            return redirect("home")
+                post.save()
+                form.save_m2m()
+                return redirect("home")
 
     return render(request, "a_posts/post_create.html", {"form": form})
 
