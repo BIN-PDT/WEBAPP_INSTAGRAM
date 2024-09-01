@@ -8,7 +8,12 @@ class ProfileEditForm(forms.ModelForm):
         exclude = ["user"]
         labels = {"image": "", "realname": "", "email": "", "location": "", "bio": ""}
         widgets = {
-            "image": forms.FileInput(),
+            "image": forms.FileInput(
+                {
+                    "accept": "image/*",
+                    "class": "!px-5 py-0",
+                }
+            ),
             "realname": forms.TextInput(
                 {
                     "placeholder": "Add name",

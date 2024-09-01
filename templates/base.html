@@ -305,14 +305,6 @@
 				background-color: rgba(232, 240, 254, 1);
 			}
 
-			.errorlist li {
-				color: rgb(253, 88, 49);
-				padding: 0.5rem;
-				padding-left: 1rem;
-				border-left: 5px solid rgb(253, 88, 49);
-				margin-bottom: 1rem;
-			}
-
 			.tab {
 				cursor: pointer;
 				padding: 0.75rem 1rem;
@@ -369,6 +361,15 @@
 
 			.only-read {
 				@apply select-none pointer-events-none;
+			}
+
+			.errorlist {
+				font-family: var(--font-2);
+				@apply my-5 block rounded-lg border-2 border-red-500 text-base text-[#FD5831] tracking-wider;
+			}
+
+			.errorlist > li {
+				@apply p-2 pl-4;
 			}
 
 			.allauth {

@@ -10,6 +10,7 @@ class PostCreateForm(forms.ModelForm):
         widgets = {
             "url": forms.URLInput(
                 {
+                    "pattern": r"^https?://.*\.(png|jpg|jpeg|gif|svg)$",
                     "placeholder": "Add an URL",
                     "class": "font-4 placeholder:italic",
                 }
