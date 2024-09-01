@@ -87,3 +87,20 @@ def profile_delete_view(request):
         return redirect("home")
 
     return render(request, "a_users/profile_delete.html")
+
+
+@login_required
+def profile_settings_view(request):
+    profile = request.user.profile
+    form = ProfileEmailEdit(instance=profile)
+
+    if request.method == "POST":
+        filled_form = ProfileEmailEdit(instance=profile, data=request.POST)
+        if filled_form.is_valid():
+            filled_form.save()
+            messages.success(request, "Email address updated!")
+            return redirect("profile-settings")
+        else:
+            messages.error(request, "Form is not valid!")
+
+    return render(request, "a_users/profile_settings.html", {"form": form})

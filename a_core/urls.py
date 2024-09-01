@@ -21,6 +21,7 @@ urlpatterns = [
     path("profile/edit/", profile_edit_view, name="profile-edit"),
     path("profile/delete/", profile_delete_view, name="profile-delete"),
     path("profile/onboarding/", profile_edit_view, name="profile-onboarding"),
+    path("profile/settings/", profile_settings_view, name="profile-settings"),
     path("comment_sent/<pk>/", comment_sent, name="comment-sent"),
     path("comment/delete/<pk>/", comment_delete_view, name="comment-delete"),
     path("reply_sent/<pk>/", reply_sent, name="reply-sent"),

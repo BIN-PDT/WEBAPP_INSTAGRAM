@@ -4,7 +4,7 @@ from .models import Profile
 
 class ProfileEditForm(forms.ModelForm):
     class Meta:
-        model = Profile()
+        model = Profile
         exclude = ["user"]
         labels = {"image": "", "realname": "", "email": "", "location": "", "bio": ""}
         widgets = {
@@ -21,7 +21,9 @@ class ProfileEditForm(forms.ModelForm):
             ),
             "email": forms.EmailInput(
                 {
+                    "readonly": "readonly",
                     "placeholder": "Add email",
+                    "class": "text-gray-500 focus:outline-none",
                 }
             ),
             "location": forms.TextInput(
@@ -36,3 +38,11 @@ class ProfileEditForm(forms.ModelForm):
                 }
             ),
         }
+
+
+class ProfileEmailEdit(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ["email"]
+        labels = {"email": ""}
+        widgets = {"email": forms.EmailInput()}
