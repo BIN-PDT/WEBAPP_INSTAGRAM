@@ -27,6 +27,9 @@
 		<link
 			href="https://fonts.googleapis.com/css2?family=Calistoga&display=swap"
 			rel="stylesheet" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+			rel="stylesheet" />
 		<!-- ALPINE JS -->
 		<script
 			defer
@@ -49,6 +52,7 @@
 				--font-1: "Lobster", sans-serif;
 				--font-2: "New Amsterdam", sans-serif;
 				--font-3: "Calistoga", serif;
+				--font-4: "Barlow Condensed", system-ui;
 			}
 
 			.font-1 {
@@ -65,6 +69,12 @@
 
 			.font-3 {
 				font-family: var(--font-3);
+				font-weight: 400;
+				font-style: normal;
+			}
+
+			.font-4 {
+				font-family: var(--font-4);
 				font-weight: 400;
 				font-style: normal;
 			}
@@ -356,6 +366,10 @@
 				@apply truncate leading-normal;
 			}
 
+			.only-read {
+				@apply select-none pointer-events-none;
+			}
+
 			.allauth {
 				@apply !p-7;
 			}
@@ -397,8 +411,12 @@
 			}
 
 			.allauth > form > p > input {
-				font-family: var(--font-3);
-				@apply placeholder:italic;
+				font-family: var(--font-4);
+				@apply tracking-wider placeholder:!tracking-wide placeholder:italic;
+			}
+
+			.allauth > form > p > input[type="password"] {
+				@apply tracking-widest;
 			}
 
 			.allauth > form > ul,
@@ -406,8 +424,16 @@
 				@apply hidden;
 			}
 
+			.allauth > form > ul.errorlist + p {
+				@apply block;
+			}
+
 			.allauth > form > button {
 				@apply block mt-10 mx-auto px-8;
+			}
+
+			.allauth > form + p {
+				@apply mt-5 mb-0 text-gray-500;
 			}
 		</style>
 	</head>

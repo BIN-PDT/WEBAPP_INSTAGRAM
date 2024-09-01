@@ -3,11 +3,11 @@
 
 <article class="card">
     <!-- PHOTO INFORMATION -->
-    <div class="h-14 px-4 flex items-center gap-5 justify-between">
-        <h3 class="w-[50%] truncate text-left font-3 !italic">
+    <div class="h-14 px-4 flex items-center gap-5 justify-between font-4">
+        <h3 class="w-[50%] truncate text-left text-lg">
             {{ post.title }}
         </h3>
-        <div class="w-[50%] truncate text-right text-sm text-gray-500 italic">
+        <div class="w-[50%] truncate text-right text-gray-500 italic">
             flickr
             <a
                 href="{{ post.url }}"
@@ -32,16 +32,16 @@
         {% if post.author %}
             <a
                 href="{% url "user-profile" post.author.username %}"
-                class="mb-4 flex items-center gap-2">
+                class="mb-4 flex items-center gap-2 font-4">
                 <img
                     class="size-8 rounded-full"
                     src="{{ post.author.profile.avatar }}"
                     alt="" />
-                <span class="font-bold italic hover:underline">{{ post.author.profile.name }}</span>
+                <span class="font-bold hover:underline">{{ post.author.profile.name }}</span>
                 <span class="text-sm text-gray-400 italic">@{{ post.author.username }}</span>
             </a>
         {% else %}
-            <div class="mb-4 flex items-center gap-2">
+            <div class="mb-4 flex items-center gap-2 font-4">
                 <img
                     class="size-8 rounded-full"
                     src="{% static "images/avatar_default.svg" %}"

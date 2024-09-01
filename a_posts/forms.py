@@ -11,7 +11,7 @@ class PostCreateForm(forms.ModelForm):
             "url": forms.URLInput(
                 {
                     "placeholder": "Add an URL",
-                    "class": "italic",
+                    "class": "font-4 placeholder:italic",
                 }
             ),
             "body": forms.Textarea(
@@ -29,7 +29,7 @@ class PostEditForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ["body", "tags"]
-        labels = {"body": "", "tags": "Category"}
+        labels = {"body": "", "tags": ""}
         widgets = {
             "body": forms.Textarea(
                 {
@@ -51,7 +51,7 @@ class CommentCreateForm(forms.ModelForm):
             "body": forms.TextInput(
                 {
                     "placeholder": "Leave your comment here",
-                    "class": "placeholder:italic",
+                    "class": "font-4 placeholder:italic",
                 }
             ),
         }
@@ -66,7 +66,7 @@ class ReplyCreateForm(forms.ModelForm):
             "body": forms.TextInput(
                 {
                     "placeholder": "Leave your reply here",
-                    "class": "text-sm placeholder:italic",
+                    "class": "font-4 placeholder:italic",
                 }
             ),
         }

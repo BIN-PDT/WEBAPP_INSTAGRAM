@@ -3,10 +3,10 @@
 
 <comment class="card p-4 !mb-4">
     <!-- COMMENT -->
-    <div class="flex justify-between items-center">
+    <div class="flex justify-between items-center font-4">
         {% if comment.author %}
             <a
-                class="mb-2 flex items-center gap-1 italic"
+                class="mb-2 flex items-center gap-1"
                 href="{% url "user-profile" comment.author.username %}">
                 <img
                     class="size-8 object-cover rounded-full"
@@ -14,7 +14,7 @@
                 <span class="font-bold hover:underline">
                     {{ comment.author.profile.name }}
                 </span>
-                <span class="text-sm font-normal text-gray-400">
+                <span class="text-sm text-gray-400 italic">
                     @{{ comment.author.username }}
                 </span>
             </a>
@@ -28,7 +28,7 @@
             </div>
         {% endif %}
     </div>
-    <p class="text-xl px-2">{{ comment.body }}</p>
+    <p class="px-2 font-4 text-xl">{{ comment.body }}</p>
     <!-- INTERACTION -->
     <div
         x-data="{ repliesOpen: false }"
