@@ -54,6 +54,7 @@
 			{% if user.is_authenticated %}
 				<li><a href="/">HOME</a></li>
 				<li><a href="{% url "post-create" %}">POST</a></li>
+				<li><a href="{% url "chat" %}">CHAT</a></li>
 				<li class="relative">
 					<div
 						hx-get="{% url "notify-inbox" %}"

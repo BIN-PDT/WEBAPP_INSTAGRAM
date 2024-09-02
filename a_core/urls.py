@@ -10,6 +10,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
     path("inbox/", include("a_inbox.urls")),
+    path("rt_chat/", include("a_rtchat.urls")),
     path("", home_view, name="home"),
     path("category/<tag>/", home_view, name="category"),
     path("post/create/", post_create_view, name="post-create"),
