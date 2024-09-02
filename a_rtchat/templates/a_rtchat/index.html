@@ -4,8 +4,8 @@
 {% block content %}
     <wrapper class="block max-w-2xl mx-auto">
         <div
-        id="chat_window"
-        class="relative h-[calc(100vh-11rem)] p-1 flex flex-col bg-gray-800 rounded-2xl shadow-2xl">
+            id="chat_window"
+            class="relative h-[calc(100vh-11rem)] p-1 flex flex-col bg-gray-800 rounded-2xl shadow-2xl">
             <!-- CHAT GROUP INFORMATION -->
             <div
                 class="sticky top-0 z-10 p-2 flex justify-center text-emerald-400 bg-gray-800 font-2 tracking-wider">
@@ -32,13 +32,12 @@
                 <div class="p-2 flex items-center rounded-xl">
                     <form
                         id="chat_message_form"
-                        hx-post="{% url "chat" %}"
-                        hx-target="#chat_messages"
-                        hx-swap="beforeend"
-                        _="on htmx:afterRequest reset() me"
+                        hx-ext="ws"
+                        ws-connect="/ws/chatroom/public-chat/"
+                        ws-send
+                        _="on htmx:wsAfterSend reset() me"
                         class="w-full">
-                        {% csrf_token %}
-                        {{ form }}
+                        {% csrf_token %} {{ form }}
                     </form>
                 </div>
             </div>
@@ -46,12 +45,12 @@
     </wrapper>
 
     <script>
-        function scrollToBottom(time=0) {
-            setTimeout(function() {
+        function scrollToBottom(time = 0) {
+            setTimeout(function () {
                 const container = document.getElementById("chat_container");
                 container.scrollTop = container.scrollHeight;
             }, time);
         }
-        scrollToBottom()
+        scrollToBottom();
     </script>
 {% endblock %}
