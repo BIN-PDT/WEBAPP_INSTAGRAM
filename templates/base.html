@@ -365,7 +365,7 @@
 
 			.errorlist {
 				font-family: var(--font-2);
-				@apply my-5 block rounded-lg border-2 border-red-500 text-base text-[#FD5831] tracking-wider;
+				@apply my-5 !block rounded-lg border-2 border-red-500 text-base text-[#FD5831] tracking-wider;
 			}
 
 			.errorlist > li {
@@ -436,6 +436,11 @@
 
 			.allauth > form + p {
 				@apply mt-5 mb-0 text-gray-500;
+			}
+
+			.allauth > form > a {
+				font-family: var(--font-2);
+				@apply block text-right;
 			}
 		</style>
 	</head>
