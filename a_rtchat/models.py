@@ -1,3 +1,4 @@
+from shortuuid import uuid
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -7,9 +8,16 @@ class ChatGroup(models.Model):
     users_online = models.ManyToManyField(
         User, related_name="online_in_groups", blank=True
     )
+    is_private = models.BooleanField(default=False)
+    members = models.ManyToManyField(User, related_name="chat_groups", blank=True)
 
     def __str__(self):
         return self.group_name
+
+    def save(self, *args, **kwargs):
+        if not self.group_name:
+            self.group_name = uuid()
+        super().save(*args, **kwargs)
 
 
 class GroupMessage(models.Model):

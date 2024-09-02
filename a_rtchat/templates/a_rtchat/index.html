@@ -9,10 +9,25 @@
             <!-- CHAT GROUP INFORMATION -->
             <div
                 class="sticky top-0 z-10 p-2 flex justify-center text-emerald-400 bg-gray-800 font-2 tracking-wider">
-                <div id="online-icon"></div>
-                <span
-                    id="online-count"
-                    class="pr-1"></span>online
+                <div id="online-icon" class="absolute top-2 left-2 gray-dot"></div>
+                {% if partner %}
+                    <a
+                        href="{% url "user-profile" partner.username %}"
+                        class="font-4 tracking-normal">
+                        <div class="flex items-center gap-2">
+                            <img
+                                class="size-10 rounded-full object-cover"
+                                src="{{ partner.profile.avatar }}"
+                                alt="">
+                            <span class="font-bold text-white">{{ partner.profile.name }}</span>
+                            <span class="italic text-gray-400">@{{ partner.username }}</span>
+                        </div>
+                    </a>
+                {% else %}
+                    <span
+                        id="online-count"
+                        class="pr-1"></span>online
+                {% endif %}
             </div>
             <!-- CHAT GROUP MESSAGES -->
             <div
@@ -32,7 +47,7 @@
                     <form
                         id="chat_message_form"
                         hx-ext="ws"
-                        ws-connect="/ws/chatroom/public-chat/"
+                        ws-connect="/ws/chatroom/{{ chatroom_name }}/"
                         ws-send
                         _="on htmx:wsAfterSend reset() me"
                         class="w-full">
