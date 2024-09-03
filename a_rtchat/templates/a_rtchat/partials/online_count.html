@@ -21,11 +21,12 @@
 		}
 	</style>
 </span>
-<!-- ONLINE TRACKER -->
+<!-- ONLINE TRACKER ON CHATROOM -->
 <div
+	hx-swap-oob="outerHTML"
 	id="online-icon"
 	class="absolute top-2 left-2 {% if online_count > 0 %}green-dot{% else %}gray-dot{% endif %}"></div>
-<!-- GROUP MODE: MEMBERS INFORMATION -->
+<!-- ONLINE TRACKER ON MEMBERS OF CHATROOM -->
 <ul 
 	hx-swap-oob="outerHTML"
 	id="groupchat-members"
@@ -36,11 +37,7 @@
 				href="{% url "user-profile" member.username %}"
 				class="w-20 flex flex-col items-center justify-center gap-2 font-4 !font-bold text-gray-400">
 				<div class="relative">
-					{% if member in chatroom.users_online.all %}
-						<div class="absolute bottom-0 border-2 border-gray-800 right-0 green-dot"></div>
-					{% else %}
-						<div class="absolute bottom-0 border-2 border-gray-800 right-0 gray-dot"></div>
-					{% endif %}
+					<div class="absolute bottom-0 border-2 border-gray-800 right-0 {% if member in chatroom.users_online.all %}green-dot{% else %}gray-dot{% endif %}"></div>
 					<img
 						class="size-14 rounded-full object-cover"
 						src="{{ member.profile.avatar }}"
@@ -51,3 +48,10 @@
 		</li>
 	{% endfor %}
 </ul>
+<!-- ONLINE TRACKER ON MESSAGES OF MEMBERS -->
+{% for user in users %}
+	<div
+		hx-swap-oob="outerHTML"
+		id="user-{{ user.id }}"
+		class="{% if user in chatroom.users_online.all %}green-dot{% else %}gray-dot{% endif %} border-2 border-gray-800 absolute -bottom-1 -right-1"></div>
+{% endfor %}

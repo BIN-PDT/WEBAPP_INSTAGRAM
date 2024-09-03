@@ -457,5 +457,11 @@
 		{% include "includes/messages.html" %}
 		{% include "includes/header.html" %}
 		{% block layout %}{% endblock %}
+
+		{% if user.is_authenticated %}
+			<footer
+				hx-ext="ws"
+				ws-connect="/ws/online_status/"></footer>
+		{% endif %}
 	</body>
 </html>
