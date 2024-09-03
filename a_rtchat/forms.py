@@ -11,7 +11,7 @@ class GroupMessageCreateForm(forms.ModelForm):
             "body": forms.TextInput(
                 {
                     "placeholder": "Type your message here",
-                    "class": "p-4 font-4 text-black",
+                    "class": "p-4 font-4 focus:outline-none",
                     "maxlength": "300",
                     "autofocus": True,
                 }

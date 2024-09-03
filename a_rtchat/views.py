@@ -15,16 +15,14 @@ def chat_view(request, group_name="public-chat"):
     # PRIVATE MODE.
     partner = None
     if chatroom.is_private:
-        if user not in chatroom.members.all():
+        if not chatroom.members.contains(user):
             raise Http404()
         else:
-            for member in chatroom.members.all():
-                if member != user:
-                    partner = member
-                    break
+            partner = chatroom.members.exclude(id=user.id).first()
+
     # GROUP MODE.
     if chatroom.groupchat_name:
-        if user not in chatroom.members.all():
+        if not chatroom.members.contains(user):
             chatroom.members.add(user)
 
     context = {
@@ -82,9 +80,8 @@ def groupchat_edit_view(request, group_name):
             form.save()
 
             removed_members = request.POST.getlist("removed_members")
-            for member_id in removed_members:
-                member = User.objects.get(id=member_id)
-                chatroom.members.remove(member)
+            removed_users = User.objects.filter(id__in=removed_members)
+            chatroom.members.remove(*removed_users)
 
             messages.success(request, "Chatroom updated!")
             return redirect("chatroom", group_name)
@@ -107,12 +104,11 @@ def groupchat_delete_view(request, group_name):
 
 @login_required
 def leave_groupchat(request, group_name):
-    user = request.user
     chatroom = get_object_or_404(ChatGroup, group_name=group_name)
-    if user not in chatroom.members.all():
+    if not chatroom.members.contains(request.user):
         raise Http404()
 
     if request.method == "POST":
-        chatroom.members.remove(user)
+        chatroom.members.remove(request.user)
         messages.success(request, "You left the Chat!")
         return redirect("home")

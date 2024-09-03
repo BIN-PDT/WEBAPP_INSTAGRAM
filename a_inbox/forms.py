@@ -12,7 +12,7 @@ class InboxNewMessageForm(forms.ModelForm):
                 {
                     "rows": 4,
                     "placeholder": "Type your message here",
-                    "class": "font-4 placeholder:italic",
+                    "class": "font-4",
                 }
             )
         }

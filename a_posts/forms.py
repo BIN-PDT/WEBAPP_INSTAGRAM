@@ -11,7 +11,7 @@ class PostCreateForm(forms.ModelForm):
             "url": forms.URLInput(
                 {
                     "placeholder": "Add an URL",
-                    "class": "font-4 placeholder:italic",
+                    "class": "font-4",
                 }
             ),
             "body": forms.Textarea(
@@ -51,7 +51,7 @@ class CommentCreateForm(forms.ModelForm):
             "body": forms.TextInput(
                 {
                     "placeholder": "Leave your comment here",
-                    "class": "font-4 placeholder:italic",
+                    "class": "font-4",
                 }
             ),
         }
@@ -66,7 +66,7 @@ class ReplyCreateForm(forms.ModelForm):
             "body": forms.TextInput(
                 {
                     "placeholder": "Leave your reply here",
-                    "class": "font-4 placeholder:italic",
+                    "class": "font-4",
                 }
             ),
         }
