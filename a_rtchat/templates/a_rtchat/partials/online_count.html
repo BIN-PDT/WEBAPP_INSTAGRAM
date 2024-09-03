@@ -25,3 +25,29 @@
 <div
 	id="online-icon"
 	class="absolute top-2 left-2 {% if online_count > 0 %}green-dot{% else %}gray-dot{% endif %}"></div>
+<!-- GROUP MODE: MEMBERS INFORMATION -->
+<ul 
+	hx-swap-oob="outerHTML"
+	id="groupchat-members"
+	class="flex gap-3">
+	{% for member in chatroom.members.all %}
+		<li>
+			<a
+				href="{% url "user-profile" member.username %}"
+				class="w-20 flex flex-col items-center justify-center gap-2 font-4 !font-bold text-gray-400">
+				<div class="relative">
+					{% if member in chatroom.users_online.all %}
+						<div class="absolute bottom-0 border-2 border-gray-800 right-0 green-dot"></div>
+					{% else %}
+						<div class="absolute bottom-0 border-2 border-gray-800 right-0 gray-dot"></div>
+					{% endif %}
+					<img
+						class="size-14 rounded-full object-cover"
+						src="{{ member.profile.avatar }}"
+						alt="">
+				</div>
+				{{ member.profile.name|slice:":10" }}
+			</a>
+		</li>
+	{% endfor %}
+</ul>

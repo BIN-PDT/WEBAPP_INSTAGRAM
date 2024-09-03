@@ -34,7 +34,7 @@
                 </div>
                 {% if user != profile.user %}
                     <!-- REALTIME CHAT -->
-                    <a href="{% url "start-chat" profile.user.username %}" class="button">Chat with me</a>
+                    <a href="{% url "private-chat" profile.user.username %}" class="button">Chat with me</a>
                     <!-- INBOX BUTTON -->
                     <div class="absolute bottom-4 right-4">
                         <a

@@ -2,14 +2,31 @@
 
 
 {% block content %}
-    <wrapper class="block max-w-2xl mx-auto">
+    <wrapper class="relative block max-w-2xl mx-auto">
+        <!-- GROUP MODE: GROUPCHAT MANAGEMENT -->
+        {% if chatroom.groupchat_name %}
+            <div class="w-full absolute -top-10 left-0 flex items-center justify-between font-1 text-xl">
+                {{ chatroom.groupchat_name }}
+                {% if chatroom.admin == user %}
+                    <a href="{% url "groupchat-edit" chatroom.group_name %}">
+                        <div class="p-2 bg-gray-200 hover:bg-blue-600 rounded-lg group">
+                            <svg class="fill-gray-500 group-hover:fill-white" width="16" height="16">
+                                <path d="M11.013 1.427a1.75 1.75 0 0 1 2.474 0l1.086 1.086a1.75 1.75 0 0 1 0 2.474l-8.61 8.61c-.21.21-.47.364-.756.445l-3.251.93a.75.75 0 0 1-.927-.928l.929-3.25c.081-.286.235-.547.445-.758l8.61-8.61Zm.176 4.823L9.75 4.81l-6.286 6.287a.253.253 0 0 0-.064.108l-.558 1.953 1.953-.558a.253.253 0 0 0 .108-.064Zm1.238-3.763a.25.25 0 0 0-.354 0L10.811 3.75l1.439 1.44 1.263-1.263a.25.25 0 0 0 0-.354Z"></path>
+                            </svg>
+                        </div>
+                    </a>
+                {% endif %}
+            </div>
+        {% endif %}
         <div
             id="chat_window"
             class="relative h-[calc(100vh-11rem)] p-1 flex flex-col bg-gray-800 rounded-2xl shadow-2xl">
-            <!-- CHAT GROUP INFORMATION -->
+            <!-- CHATROOM INFORMATION -->
             <div
-                class="sticky top-0 z-10 p-2 flex justify-center text-emerald-400 bg-gray-800 font-2 tracking-wider">
+                class="sticky top-0 z-10 p-2 flex justify-center text-emerald-400 bg-gray-800 rounded-2xl font-2 tracking-wider">
+                <!-- ONLINE TRACKER -->
                 <div id="online-icon" class="absolute top-2 left-2 gray-dot"></div>
+                <!-- PRIVATE MODE: PARTNER INFORMATION -->
                 {% if partner %}
                     <a
                         href="{% url "user-profile" partner.username %}"
@@ -23,6 +40,24 @@
                             <span class="italic text-gray-400">@{{ partner.username }}</span>
                         </div>
                     </a>
+                <!-- GROUP MODE: MEMBERS INFORMATION -->
+                {% elif chatroom.groupchat_name %}
+                    <ul id="groupchat-members" class="flex gap-3">
+                        {% for member in chatroom.members.all %}
+                            <li>
+                                <a
+                                    href="{% url "user-profile" member.username %}"
+                                    class="w-20 flex flex-col items-center justify-center gap-2 font-4 !font-bold text-gray-400">
+                                    <img
+                                        class="size-14 rounded-full object-cover"
+                                        src="{{ member.profile.avatar }}"
+                                        alt="">
+                                    {{ member.profile.name|slice:":10" }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                <!-- PUBLIC MODE: ONLINE COUNT -->
                 {% else %}
                     <span
                         id="online-count"
@@ -42,12 +77,12 @@
                 </ul>
             </div>
             <!-- CHAT FORM -->
-            <div class="sticky bottom-0 z-10 p-2 bg-gray-800">
-                <div class="p-2 flex items-center rounded-xl">
+            <div class="sticky bottom-0 z-10 p-2 bg-gray-800 rounded-2xl">
+                <div class="p-2 flex items-center">
                     <form
                         id="chat_message_form"
                         hx-ext="ws"
-                        ws-connect="/ws/chatroom/{{ chatroom_name }}/"
+                        ws-connect="/ws/chatroom/{{ group_name }}/"
                         ws-send
                         _="on htmx:wsAfterSend reset() me"
                         class="w-full">
@@ -56,6 +91,10 @@
                 </div>
             </div>
         </div>
+        <!-- GROUP MODE: LEAVE GROUPCHAT -->
+        {% if chatroom.groupchat_name and chatroom.members.exists %}
+            {% include "a_rtchat/partials/modal_group_leave.html" %}
+        {% endif %}
     </wrapper>
 
     <script>

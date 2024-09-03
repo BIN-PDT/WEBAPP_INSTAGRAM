@@ -10,6 +10,11 @@ class ChatGroup(models.Model):
     )
     is_private = models.BooleanField(default=False)
     members = models.ManyToManyField(User, related_name="chat_groups", blank=True)
+    # GROUP MODE.
+    groupchat_name = models.CharField(max_length=128, null=True, blank=True)
+    admin = models.ForeignKey(
+        User, null=True, blank=True, related_name="groupchats", on_delete=models.CASCADE
+    )
 
     def __str__(self):
         return self.group_name

@@ -79,20 +79,39 @@
 						class="w-40 p-2 absolute z-20 right-0 bg-white text-black shadow rounded">
 						<ul
 							class="hover-list [&>li>a]:text-base [&>li>a]:justify-end">
-							<li><a href="{% url "chat" %}">Public Chat</a></li>
+							<!-- PUBLIC CHAT -->
+							<li><a href="{% url "public-chat" %}">Public Chat</a></li>
+							<!-- PRIVATE CHAT -->
+							{% include "includes/divider.html" with title="private chat" %}
 							{% for chatroom in user.chat_groups.all %}
 								{% if chatroom.is_private %}
 									{% for member in chatroom.members.all %}
 										{% if member != user %}
 											<li>
 												<a href="{% url "chatroom" chatroom.group_name %}">
-													{{ member.profile.name }}
+													{{ member.profile.name|truncatewords:3|truncatechars:15 }}
 												</a>
 											</li>
 										{% endif %}
 									{% endfor %}
 								{% endif %}
 							{% endfor %}
+							<!-- GROUP CHAT -->
+							{% include "includes/divider.html" with title="group chat" %}
+							<li>
+								<a
+									href="{% url "groupchat-create" %}"
+									class="!block text-left">CREATE</a>
+							</li>
+							{% for chatroom in user.chat_groups.all %}
+								{% if not chatroom.is_private and chatroom.groupchat_name %}
+									<li>
+										<a href="{% url "chatroom" chatroom.group_name %}">
+											{{ chatroom.groupchat_name|truncatewords:3|truncatechars:15 }}
+										</a>
+									</li>
+							{% endif %}
+						{% endfor %}
 						</ul>
 					</div>
 				</li>
