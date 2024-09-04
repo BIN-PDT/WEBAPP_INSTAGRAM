@@ -1,6 +1,7 @@
 import json
 from channels.generic.websocket import WebsocketConsumer
 from django.shortcuts import get_object_or_404
+from django.db.models import Q, Count
 from django.template.loader import render_to_string
 from asgiref.sync import async_to_sync
 from .models import *
@@ -61,10 +62,11 @@ class ChatroomConsumer(WebsocketConsumer):
     def online_count_handler(self, event):
         online_count = event["online_count"]
 
-        chat_messages = ChatGroup.objects.get(
-            group_name=self.group_name
-        ).chat_messages.all()[:30]
-        author_ids = set([message.author.id for message in chat_messages])
+        author_ids = (
+            self.chatroom.chat_messages.all()
+            .values_list("author_id", flat=True)
+            .distinct()[:30]
+        )
         users = User.objects.filter(id__in=author_ids)
 
         context = {
@@ -108,36 +110,40 @@ class OnlineStatusConsumer(WebsocketConsumer):
         event = {"type": "online_status_handler"}
         async_to_sync(self.channel_layer.group_send)(self.group_name, event)
 
-    def online_status_handler(self, event):
+    def online_status_handler(self, _):
         online_users = self.group.users_online.exclude(id=self.user.id)
         # PUBLIC MODE.
-        public_chat_users = ChatGroup.objects.get(
-            group_name="public-chat"
-        ).users_online.exclude(id=self.user.id)
-        # PRIVATE MODE.
-        private_chats_with_users = [
-            chat
-            for chat in self.user.chat_groups.filter(is_private=True)
-            if chat.users_online.exclude(id=self.user.id).exists()
-        ]
-        # GROUP MODE.
-        group_chats_with_users = [
-            chat
-            for chat in self.user.chat_groups.filter(groupchat_name__isnull=False)
-            if chat.users_online.exclude(id=self.user.id).exists()
-        ]
-
-        online_in_chats = (
-            public_chat_users.exists()
-            or private_chats_with_users
-            or group_chats_with_users
+        online_in_public = (
+            ChatGroup.objects.get(group_name="public-chat")
+            .users_online.exclude(id=self.user.id)
+            .exists()
         )
+        # PRIVATE MODE.
+        online_in_privates = (
+            self.user.chat_groups.filter(is_private=True)
+            .annotate(
+                online_count=Count("users_online", filter=~Q(users_online=self.user))
+            )
+            .filter(online_count__gt=0)
+            .exists()
+        )
+        # GROUP MODE.
+        online_in_groups = (
+            self.user.chat_groups.filter(groupchat_name__isnull=False)
+            .annotate(
+                online_others=Count("users_online", filter=~Q(users_online=self.user))
+            )
+            .filter(online_others__gt=0)
+            .exists()
+        )
+        # GENERAL.
+        online_in_chats = online_in_public or online_in_privates or online_in_groups
 
         context = {
             "user": self.user,
             "online_users": online_users,
             "online_in_chats": online_in_chats,
-            "public_chat_users": public_chat_users,
+            "online_in_public": online_in_public,
         }
         html = render_to_string("a_rtchat/partials/online_status.html", context)
         self.send(text_data=html)

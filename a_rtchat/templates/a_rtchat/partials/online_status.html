@@ -24,7 +24,7 @@
     class="hover-list [&>li>a]:text-base [&>li>a]:justify-end">
     <!-- PUBLIC CHAT -->
     <li class="relative">
-        <div class="absolute top-1 left-1 {% if public_chat_users %}green-dot{% else %}gray-dot{% endif %}"></div>
+        <div class="absolute top-1 left-1 {% if online_in_public %}green-dot{% else %}gray-dot{% endif %}"></div>
         <a href="{% url "public-chat" %}">Public Chat</a>
     </li>
     <!-- PRIVATE CHAT -->
