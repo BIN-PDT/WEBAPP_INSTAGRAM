@@ -28,11 +28,13 @@
                             {{ profile.location|default:"Planet Earth" }}
                         </div>
                         <div class="my-5 font-1 text-3xl">
-                            {{ profile.bio|default:"Professional Procrastinator" }}
+                            {{ profile.bio|default:"Professional Procrastinator"|linebreaksbr }}
                         </div>
                     </div>
                 </div>
                 {% if user != profile.user %}
+                    <!-- REALTIME CHAT -->
+                    <a href="{% url "private-chat" profile.user.username %}" class="button">Chat with me</a>
                     <!-- INBOX BUTTON -->
                     <div class="absolute bottom-4 right-4">
                         <a

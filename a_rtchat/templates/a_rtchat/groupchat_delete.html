@@ -1,0 +1,29 @@
+{% extends 'layouts/c.html' %}
+
+
+{% block content %}
+    <h1 class="font-1">Delete Groupchat</h1>
+
+    <p class="font-2 text-xl">
+        Are you sure you want to delete your chatroom
+        <span class="font-1">"{{ chatroom.groupchat_name }}"</span> ?<br />
+        <span class="text-red-600">This action cannot be undone!</span>
+    </p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="text-right">
+            <button
+                type="submit"
+                class="btn-red mt-6">
+                Yes, I want to delete my chatroom
+            </button>
+            <a
+                class="ml-2 button secondary-action"
+                href="{{ request.META.HTTP_REFERER }}">
+                Cancel
+            </a>
+        </div>
+    </form>
+{% endblock %}

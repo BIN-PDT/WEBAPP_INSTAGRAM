@@ -1,0 +1,54 @@
+{% extends 'layouts/c.html' %}
+
+
+{% block content %}
+    <div class="flex justify-between">
+        <h1 class="font-1">Edit Groupchat</h1>
+        <a
+            href="{% url "groupchat-delete" chatroom.group_name %}"
+            class="font-2 text-gray-400 hover:text-red-500 tracking-wide"
+            >Delete Groupchat</a
+        >
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form }}
+
+        <div class="my-2">
+            <h3 class="font-2">Members</h3>
+            {% for member in chatroom.members.all %}
+                <div class="flex items-center justify-between">
+                    <div class="py-2 flex items-center gap-2">
+                        <img
+                            class="size-14 rounded-full object-cover"
+                            src="{{ member.profile.avatar }}" />
+                        <div class="font-4">
+                            <span class="font-bold">{{ member.profile.name }}</span>
+                            <span class="text-sm italic text-gray-400">@{{ member.username }}</span>
+                        </div>
+                    </div>
+
+                    {% if member != chatroom.admin %}
+                        <div class="inline-block pr-4">
+                            <input
+                                type="checkbox"
+                                name="removed_members"
+                                value="{{ member.id }}"
+                                class="relative p-5 cursor-pointer appearance-none rounded-md border after:absolute after:left-0 after:top-0 after:h-full after:w-full after:bg-[url('https://img.icons8.com/ffffff/32/multiply.png')] after:bg-center checked:bg-red-500 hover:ring hover:ring-gray-300 focus:outline-none" />
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="mt-7 text-right">
+            <button type="submit">Edit Group</button>
+            <a
+                class="ml-2 button secondary-action"
+                href="{% url "chatroom" chatroom.group_name %}">
+                Cancel
+            </a>
+        </div>
+    </form>
+{% endblock %}

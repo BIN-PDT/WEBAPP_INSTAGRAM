@@ -29,6 +29,7 @@ def inbox_view(request, conversation_id=None):
     return render(request, "a_inbox/index.html", context)
 
 
+@login_required
 def search_users(request):
     keyword = request.GET.get("search_user")
     if request.htmx:
@@ -76,6 +77,7 @@ def new_message(request, recipient_id):
             new_conversation.save()
             message.conversation = new_conversation
             message.save()
+
             return redirect("inbox", new_conversation.id)
 
     context = {"recipient": recipient, "form": form}
@@ -104,12 +106,14 @@ def new_reply(request, conversation_id):
             conversation.lastmessage_created = timezone.now()
             conversation.is_seen = False
             conversation.save()
+
             return redirect("inbox", conversation_id)
 
     context = {"conversation": conversation, "form": form}
     return render(request, "a_inbox/form_new_reply.html", context)
 
 
+@login_required
 def notify_message(request, conversation_id):
     conversation = get_object_or_404(Conversation, id=conversation_id)
     lastest_message = conversation.messages.first()
@@ -124,11 +128,14 @@ def notify_message(request, conversation_id):
         return HttpResponse("")
 
 
+@login_required
 def notify_inbox(request):
     user = request.user
     list_conversations = Conversation.objects.filter(participants=user, is_seen=False)
+
     for conversation in list_conversations:
         lastest_message = conversation.messages.first()
         if lastest_message and lastest_message.sender != user:
             return render(request, "a_inbox/notify_icon.html")
+
     return HttpResponse("")

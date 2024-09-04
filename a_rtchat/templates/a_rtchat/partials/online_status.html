@@ -1,0 +1,63 @@
+<!-- ONLINE USER TRACKER -->
+<div
+	hx-swap-oob="outerHTML"
+	id="online-user-count">
+	{% if online_users %}
+        <span
+            class="ml-4 px-3 py-2 rounded-lg bg-red-500 font-2 text-sm text-white tracking-wide">
+            {{ online_users.count }} online
+        </span>
+	{% endif %}
+</div>
+<!-- ONLINE CHAT TRACKER -->
+<div
+    hx-swap-oob="outerHTML"
+    id="online-in-chats">
+	{% if online_in_chats %}
+	    <div class="absolute z-20 top-1 right-1 green-dot"></div>
+	{% endif %}
+</div>
+<!-- ONLINE CHATROOM TRACKER -->
+<ul
+    hx-swap-oob="outerHTML"
+    id="chats-list"
+    class="hover-list [&>li>a]:text-base [&>li>a]:justify-end">
+    <!-- PUBLIC CHAT -->
+    <li class="relative">
+        <div class="absolute top-1 left-1 {% if online_in_public %}green-dot{% else %}gray-dot{% endif %}"></div>
+        <a href="{% url "public-chat" %}">Public Chat</a>
+    </li>
+    <!-- PRIVATE CHAT -->
+    {% if private_chatrooms %}
+        {% include "includes/divider.html" with title="private chat" %}
+        {% for chatroom in private_chatrooms %}
+            {% for member in chatroom.members.all %}
+                {% if member != user %}
+                    <li class="relative">
+                        <div class="absolute top-1 left-1 {% if chatroom.users_online.all and user not in chatroom.users_online.all or chatroom.users_online.count > 1 %}green-dot{% else %}gray-dot{% endif %}"></div>
+                        <a href="{% url "chatroom" chatroom.group_name %}">
+                            {{ member.profile.name|truncatewords:3|truncatechars:15 }}
+                        </a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+    <!-- GROUP CHAT -->
+    {% include "includes/divider.html" with title="group chat" %}
+    <li>
+        <a
+            href="{% url "groupchat-create" %}"
+            class="!block text-left">CREATE</a>
+    </li>
+    {% if group_chatrooms %}
+        {% for chatroom in group_chatrooms %}
+            <li class="relative">
+                <div class="absolute top-1 left-1 {% if chatroom.users_online.all and user not in chatroom.users_online.all or chatroom.users_online.count > 1 %}green-dot{% else %}gray-dot{% endif %}"></div>
+                <a href="{% url "chatroom" chatroom.group_name %}">
+                    {{ chatroom.groupchat_name|truncatewords:3|truncatechars:15 }}
+                </a>
+            </li>
+        {% endfor %}
+    {% endif %}
+</ul>

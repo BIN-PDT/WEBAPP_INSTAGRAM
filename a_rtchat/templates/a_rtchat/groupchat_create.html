@@ -1,0 +1,15 @@
+{% extends 'layouts/c.html' %}
+
+
+{% block content %}
+    <h1 class="font-1">Create Groupchat</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form }}
+
+        <div class="mt-7 text-right">
+            <button type="submit">Create Group</button>
+        </div>
+    </form>
+{% endblock %}
