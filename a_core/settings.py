@@ -1,18 +1,27 @@
 from pathlib import Path
+from environ import Env
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# ENVIRONMENT VARIABLE.
+
+env = Env()
+Env.read_env()
+
+ENVIRONMENT = env("ENVIRONMENT", default="production")
+
+
 # SECURITY KEY.
 
-SECRET_KEY = "django-insecure-d_g70a-lmsq(cgq=tnxdnh$jz&@^%fut0%hl9m$i%k_tcflx11"
+SECRET_KEY = env("SECRET_KEY")
 
-ENCRYPT_KEY = b"6p3ajk8HAvNwwsWo8wxCnoYlvJcyxu1uklfEfFS4fBM="
+ENCRYPT_KEY = env("ENCRYPT_KEY")
 
 
 # SECURITY MODE.
 
-DEBUG = True
+DEBUG = ENVIRONMENT == "development"
 
 ALLOWED_HOSTS = []
 
@@ -33,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
+    "admin_honeypot",
     "allauth",
     "django_htmx",
     "allauth.account",
@@ -158,6 +168,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 
 ACCOUNT_USERNAME_BLACKLIST = [
     "admin",
+    "administrator",
     "accounts",
     "inbox",
     "chat",
