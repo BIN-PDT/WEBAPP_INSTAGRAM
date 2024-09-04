@@ -77,8 +77,22 @@
                 </ul>
             </div>
             <!-- CHAT FORM -->
-            <div class="sticky bottom-0 z-10 p-2 bg-gray-800 rounded-2xl">
-                <div class="p-2 flex flex-col items-center gap-3 rounded-xl">
+            <div
+                x-cloak
+                x-data="{ showFileInput: false }"
+                class="sticky bottom-0 z-10 p-2 flex flex-col items-center bg-gray-800 rounded-2xl">
+                <!-- FILE FORM TOGGLE -->
+                <a
+                    @click="showFileInput = !showFileInput"
+                    class="absolute block -mt-8 px-4 py-3 cursor-pointer">
+                    <img
+                        x-bind:class="showFileInput && 'rotate-180 duration-300'"
+                        class="w-4"
+                        src="https://img.icons8.com/ios-glyphs/30/777777/expand-arrow--v1.png"
+                        alt="" />
+                </a>
+                <!-- MESSAGE FORM -->
+                <div class="relative w-full p-2 flex flex-col items-center gap-3 rounded-xl overflow-hidden">
                     <!-- TEXT FORM -->
                     <form
                         id="chat_message_form"
@@ -91,6 +105,13 @@
                     </form>
                     <!-- FILE FORM -->
                     <form
+                        x-show="showFileInput"
+                        x-transition:enter="duration-500 ease-out"
+                        x-transition:enter-start="opacity-0 translate-y-10"
+                        x-transition:enter-end="opacity-100 translate-y-0"
+                        x-transition:leave="duration-300 ease-out"
+                        x-transition:leave-start="opacity-100 translate-y-0"
+                        x-transition:leave-end="opacity-0 translate-y-10"
                         id="chat_file_form"
                         enctype="multipart/form-data"
                         class="flex items-center w-full" 
@@ -99,14 +120,14 @@
                         hx-swap="beforeend" 
                         _="on htmx:beforeSend reset() me" >
                         {% csrf_token %}
-                        <input type="file" name="file" id="id_file" class="!bg-transparent font-4 text-gray-400">
+                        <input type="file" name="file" id="id_file" class="py-1 !bg-transparent font-4 text-gray-400">
 
                         <button
                             type="submit"
                             class="whitespace-nowrap !text-sm !py-3 !px-4 h-fit">
                             Submit File
                         </button>
-                </form>
+                    </form>
                 </div>
             </div>
         </div>
