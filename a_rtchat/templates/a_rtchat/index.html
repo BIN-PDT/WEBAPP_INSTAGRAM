@@ -78,7 +78,8 @@
             </div>
             <!-- CHAT FORM -->
             <div class="sticky bottom-0 z-10 p-2 bg-gray-800 rounded-2xl">
-                <div class="p-2 flex items-center">
+                <div class="p-2 flex flex-col items-center gap-3 rounded-xl">
+                    <!-- TEXT FORM -->
                     <form
                         id="chat_message_form"
                         hx-ext="ws"
@@ -88,6 +89,24 @@
                         class="w-full">
                         {% csrf_token %} {{ form }}
                     </form>
+                    <!-- FILE FORM -->
+                    <form
+                        id="chat_file_form"
+                        enctype="multipart/form-data"
+                        class="flex items-center w-full" 
+                        hx-post="{% url "chat-file-upload" chatroom.group_name %}"
+                        hx-target="#chat_messages"
+                        hx-swap="beforeend" 
+                        _="on htmx:beforeSend reset() me" >
+                        {% csrf_token %}
+                        <input type="file" name="file" id="id_file" class="!bg-transparent font-4 text-gray-400">
+
+                        <button
+                            type="submit"
+                            class="whitespace-nowrap !text-sm !py-3 !px-4 h-fit">
+                            Submit File
+                        </button>
+                </form>
                 </div>
             </div>
         </div>

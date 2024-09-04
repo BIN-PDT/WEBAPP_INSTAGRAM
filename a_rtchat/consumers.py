@@ -119,18 +119,18 @@ class OnlineStatusConsumer(WebsocketConsumer):
             .exists()
         )
         # PRIVATE MODE.
+        private_chatrooms = self.user.chat_groups.filter(is_private=True)
         online_in_privates = (
-            self.user.chat_groups.filter(is_private=True)
-            .annotate(
+            private_chatrooms.annotate(
                 online_count=Count("users_online", filter=~Q(users_online=self.user))
             )
             .filter(online_count__gt=0)
             .exists()
         )
         # GROUP MODE.
+        group_chatrooms = self.user.chat_groups.filter(groupchat_name__isnull=False)
         online_in_groups = (
-            self.user.chat_groups.filter(groupchat_name__isnull=False)
-            .annotate(
+            group_chatrooms.annotate(
                 online_others=Count("users_online", filter=~Q(users_online=self.user))
             )
             .filter(online_others__gt=0)
@@ -144,6 +144,8 @@ class OnlineStatusConsumer(WebsocketConsumer):
             "online_users": online_users,
             "online_in_chats": online_in_chats,
             "online_in_public": online_in_public,
+            "private_chatrooms": private_chatrooms,
+            "group_chatrooms": group_chatrooms,
         }
         html = render_to_string("a_rtchat/partials/online_status.html", context)
         self.send(text_data=html)

@@ -28,9 +28,9 @@
         <a href="{% url "public-chat" %}">Public Chat</a>
     </li>
     <!-- PRIVATE CHAT -->
-    {% include "includes/divider.html" with title="private chat" %}
-    {% for chatroom in user.chat_groups.all %}
-        {% if chatroom.is_private %}
+    {% if private_chatrooms %}
+        {% include "includes/divider.html" with title="private chat" %}
+        {% for chatroom in private_chatrooms %}
             {% for member in chatroom.members.all %}
                 {% if member != user %}
                     <li class="relative">
@@ -41,8 +41,8 @@
                     </li>
                 {% endif %}
             {% endfor %}
-        {% endif %}
-    {% endfor %}
+        {% endfor %}
+    {% endif %}
     <!-- GROUP CHAT -->
     {% include "includes/divider.html" with title="group chat" %}
     <li>
@@ -50,14 +50,14 @@
             href="{% url "groupchat-create" %}"
             class="!block text-left">CREATE</a>
     </li>
-    {% for chatroom in user.chat_groups.all %}
-        {% if not chatroom.is_private and chatroom.groupchat_name %}
+    {% if group_chatrooms %}
+        {% for chatroom in group_chatrooms %}
             <li class="relative">
                 <div class="absolute top-1 left-1 {% if chatroom.users_online.all and user not in chatroom.users_online.all or chatroom.users_online.count > 1 %}green-dot{% else %}gray-dot{% endif %}"></div>
                 <a href="{% url "chatroom" chatroom.group_name %}">
                     {{ chatroom.groupchat_name|truncatewords:3|truncatechars:15 }}
                 </a>
             </li>
-        {% endif %}
-    {% endfor %}
+        {% endfor %}
+    {% endif %}
 </ul>

@@ -2,7 +2,7 @@
     <li class="mb-4 flex justify-end">
         <div
             class="max-w-[75%] p-4 rounded-l-lg rounded-tr-lg bg-green-200">
-            <span>{{ message.body }}</span>
+            {% include "a_rtchat/partials/message_content.html" %}
         </div>
         <div class="flex items-end">
             <svg
@@ -38,7 +38,7 @@
             </div>
             <div
                 class="max-w-[75%] p-4 rounded-r-lg rounded-tl-lg bg-white">
-                <span>{{ message.body }}</span>
+                {% include "a_rtchat/partials/message_content.html" %}
             </div>
         </div>
         <div class="text-sm font-light py-1 ml-10">

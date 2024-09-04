@@ -10,4 +10,5 @@ urlpatterns = [
     path("group/edit/<group_name>/", groupchat_edit_view, name="groupchat-edit"),
     path("group/delete/<group_name>/", groupchat_delete_view, name="groupchat-delete"),
     path("group/leave/<group_name>/", leave_groupchat, name="groupchat-leave"),
+    path("room/file_upload/<group_name>/", chat_file_upload, name="chat-file-upload"),
 ]
