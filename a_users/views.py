@@ -1,3 +1,4 @@
+from allauth.account.utils import send_email_confirmation
 from django.http import Http404
 from django.urls import reverse
 from django.db.models import Count
@@ -92,15 +93,25 @@ def profile_delete_view(request):
 @login_required
 def profile_settings_view(request):
     profile = request.user.profile
+    is_verified = profile.user.emailaddress_set.get(primary=True).verified
     form = ProfileEmailEdit(instance=profile)
 
     if request.method == "POST":
         filled_form = ProfileEmailEdit(instance=profile, data=request.POST)
         if filled_form.is_valid():
             filled_form.save()
-            messages.success(request, "Email address updated!")
-            return redirect("profile-settings")
+            if request.user.emailaddress_set.get(primary=True).verified:
+                return redirect("profile-settings")
+            else:
+                return redirect("profile-verify-email")
         else:
             messages.error(request, "Form is not valid!")
 
-    return render(request, "a_users/profile_settings.html", {"form": form})
+    context = {"form": form, "is_verified": is_verified}
+    return render(request, "a_users/profile_settings.html", context)
+
+
+@login_required
+def profile_verify_email(request):
+    send_email_confirmation(request, request.user)
+    return redirect("profile-settings")

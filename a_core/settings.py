@@ -86,6 +86,9 @@ TEMPLATES = [
     },
 ]
 
+
+# WEBSOCKET CONFIGURATION.
+
 # WSGI_APPLICATION = "a_core.wsgi.application"
 
 ASGI_APPLICATION = "a_core.asgi.application"
@@ -152,19 +155,36 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
+# EMAIL CONFIGURATION.
+
+# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+EMAIL_HOST = "smtp.gmail.com"
+
+EMAIL_HOST_USER = env("EMAIL_ADDRESS")
+
+EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD")
+
+EMAIL_PORT = 587
+
+EMAIL_USE_TLS = True
+
+DEFAULT_FROM_EMAIL = f'Awesome {env("EMAIL_ADDRESS")}'
+
+ACCOUNT_EMAIL_SUBJECT_PREFIX = ""
+
+
 # ADDITIONAL CONFIGURATION.
 
-LOGIN_REDIRECT_URL = "/"
-
-ACCOUNT_SIGNUP_REDIRECT_URL = "profile-onboarding"
-
-
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+LOGIN_REDIRECT_URL = "home"
 
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 
 ACCOUNT_EMAIL_REQUIRED = True
 
+ACCOUNT_SIGNUP_REDIRECT_URL = "profile-onboarding"
 
 ACCOUNT_USERNAME_BLACKLIST = [
     "admin",

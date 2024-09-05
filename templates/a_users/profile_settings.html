@@ -23,7 +23,16 @@
                 <p
                     x-show="!emailEdit"
                     class="mb-0 font-4 text-gray-500">
-                    {{ user.profile.email }}
+                    {{ user.profile.email }}<br/>
+                    {% if is_verified %}
+                        <span class="font-2 tracking-wide text-green-500">Verified</span>
+                    {% else %}
+                        <a
+                            href="{% url "profile-verify-email" %}"
+                            class="cursor-pointer font-2 tracking-wide text-red-500 hover:underline">
+                            Verified
+                        </a>
+                    {% endif %}
                 </p>
                 <form
                     method="POST"

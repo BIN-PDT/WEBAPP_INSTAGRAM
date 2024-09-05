@@ -29,6 +29,7 @@ urlpatterns = [
     path("profile/delete/", profile_delete_view, name="profile-delete"),
     path("profile/onboarding/", profile_edit_view, name="profile-onboarding"),
     path("profile/settings/", profile_settings_view, name="profile-settings"),
+    path("profile/verify_email/", profile_verify_email, name="profile-verify-email"),
     path("profile/<username>/", profile_view, name="user-profile"),
     # COMMENT.
     path("comment_sent/<pk>/", comment_sent, name="comment-sent"),
