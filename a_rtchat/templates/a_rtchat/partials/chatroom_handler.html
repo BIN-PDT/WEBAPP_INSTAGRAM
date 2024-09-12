@@ -8,14 +8,19 @@
 <script
 	hx-swap-oob="outerHTML"
 	id="check-member">
-	(async () => {
-		let response = await fetch("/chat/check_member/{{ group_name }}/");
-		let data = await response.json();
+	(() => {
+		const USER_ID = {{ user_id|safe }};
+		const MEMBERS = JSON.parse("{{ chatroom_members|safe }}");
+		let existed = false;
 
-		if (data.is_member === false) {
-			window.location.replace("/");
+		for (let i = 0; i < MEMBERS.length; i++) {
+			if (MEMBERS[i] === USER_ID) {
+				existed = true;
+				break;
+			}
 		}
 
-		document.getElementById("check-member").textContent = "";
+		if (existed) document.getElementById("check-member").textContent = "";
+		else window.location.replace("/");
 	})();
 </script>

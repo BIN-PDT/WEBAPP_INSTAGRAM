@@ -79,9 +79,12 @@ class ChatroomConsumer(WebsocketConsumer):
 
     def chatroom_handler(self, event):
         context = {
+            "user_id": self.user.id,
             "group_name": self.group_name,
             "chatroom_name": event["chatroom_name"],
+            "chatroom_members": event["chatroom_members"],
         }
+
         html = render_to_string("a_rtchat/partials/chatroom_handler.html", context)
         self.send(text_data=html)
 

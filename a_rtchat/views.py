@@ -89,6 +89,9 @@ def groupchat_edit_view(request, group_name):
             event = {
                 "type": "chatroom_handler",
                 "chatroom_name": form.cleaned_data["groupchat_name"],
+                "chatroom_members": list(
+                    chatroom.members.values_list("id", flat=True).all()
+                ),
             }
             async_to_sync(channel_layer.group_send)(group_name, event)
 
@@ -107,7 +110,11 @@ def groupchat_delete_view(request, group_name):
         chatroom.delete()
 
         channel_layer = get_channel_layer()
-        event = {"type": "chatroom_handler", "chatroom_name": chatroom.groupchat_name}
+        event = {
+            "type": "chatroom_handler",
+            "chatroom_name": chatroom.groupchat_name,
+            "chatroom_members": [],
+        }
         async_to_sync(channel_layer.group_send)(group_name, event)
 
         messages.success(request, "Chatroom deleted!")
