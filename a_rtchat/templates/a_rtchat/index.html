@@ -6,7 +6,7 @@
         <!-- GROUP MODE: GROUPCHAT MANAGEMENT -->
         {% if chatroom.groupchat_name %}
             <div class="w-full absolute -top-10 left-0 flex items-center justify-between font-1 text-xl">
-                {{ chatroom.groupchat_name }}
+                <span id="chatroom-name">{{ chatroom.groupchat_name }}</span>
                 {% if chatroom.admin == user %}
                     <a href="{% url "groupchat-edit" chatroom.group_name %}">
                         <div class="p-2 bg-gray-200 hover:bg-blue-600 rounded-lg group">

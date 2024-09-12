@@ -1,0 +1,21 @@
+<!-- CHANGE CHATROOM NAME -->
+<span
+	hx-swap-oob="innerHTML"
+	id="chatroom-name"
+	>{{ chatroom_name }}</span
+>
+<!-- CHECK USER IS MEMBER OF CHATROOM -->
+<script
+	hx-swap-oob="outerHTML"
+	id="check-member">
+	(async () => {
+		let response = await fetch("/chat/check_member/{{ group_name }}/");
+		let data = await response.json();
+
+		if (data.is_member === false) {
+			window.location.replace("/");
+		}
+
+		document.getElementById("check-member").textContent = "";
+	})();
+</script>
