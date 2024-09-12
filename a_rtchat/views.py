@@ -131,6 +131,20 @@ def leave_groupchat(request, group_name):
 
     if request.method == "POST":
         chatroom.members.remove(request.user)
+
+        if chatroom.members.exists():
+            channel_layer = get_channel_layer()
+            event = {
+                "type": "chatroom_handler",
+                "chatroom_name": chatroom.groupchat_name,
+                "chatroom_members": list(
+                    chatroom.members.values_list("id", flat=True).all()
+                ),
+            }
+            async_to_sync(channel_layer.group_send)(group_name, event)
+        else:
+            chatroom.delete()
+
         messages.success(request, "You left the Chat!")
         return redirect("home")
 
@@ -151,14 +165,3 @@ def chat_file_upload(request, group_name):
         async_to_sync(channel_layer.group_send)(group_name, event)
 
     return HttpResponse()
-
-
-@login_required
-def check_member(request, group_name):
-    try:
-        chatroom = ChatGroup.objects.get(group_name=group_name)
-        is_member = chatroom.members.contains(request.user)
-    except:
-        is_member = False
-
-    return JsonResponse({"is_member": is_member})
