@@ -132,17 +132,7 @@ def leave_groupchat(request, group_name):
     if request.method == "POST":
         chatroom.members.remove(request.user)
 
-        if chatroom.members.exists():
-            channel_layer = get_channel_layer()
-            event = {
-                "type": "chatroom_handler",
-                "chatroom_name": chatroom.groupchat_name,
-                "chatroom_members": list(
-                    chatroom.members.values_list("id", flat=True).all()
-                ),
-            }
-            async_to_sync(channel_layer.group_send)(group_name, event)
-        else:
+        if not chatroom.members.exists():
             chatroom.delete()
 
         messages.success(request, "You left the Chat!")
