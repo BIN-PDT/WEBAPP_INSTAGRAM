@@ -69,7 +69,7 @@ python manage.py migrate
 ```
 
 ```
-python mange.py shell
+python manage.py shell
 ```
 
 ```python
