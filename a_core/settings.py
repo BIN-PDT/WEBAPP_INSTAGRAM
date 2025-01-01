@@ -1,5 +1,6 @@
 from pathlib import Path
 from environ import Env
+from django.core.exceptions import ImproperlyConfigured
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -14,9 +15,13 @@ ENVIRONMENT = env("ENVIRONMENT", default="production")
 
 # SECURITY KEY.
 
-SECRET_KEY = env("SECRET_KEY")
+SECRET_KEY = env("SECRET_KEY", default=None)
+if SECRET_KEY is None:
+    raise ImproperlyConfigured("SECRET_KEY IS MISSING!")
 
-ENCRYPT_KEY = env("ENCRYPT_KEY")
+ENCRYPT_KEY = env("ENCRYPT_KEY", default=None)
+if ENCRYPT_KEY is None:
+    raise ImproperlyConfigured("ENCRYPT_KEY IS MISSING!")
 
 
 # SECURITY MODE.
@@ -163,9 +168,13 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 EMAIL_HOST = "smtp.gmail.com"
 
-EMAIL_HOST_USER = env("EMAIL_ADDRESS")
+EMAIL_HOST_USER = env("EMAIL_ADDRESS", default=None)
+if EMAIL_HOST_USER is None:
+    raise ImproperlyConfigured("EMAIL_ADDRESS IS MISSING!")
 
-EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD")
+EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD", default=None)
+if EMAIL_HOST_PASSWORD is None:
+    raise ImproperlyConfigured("EMAIL_PASSWORD IS MISSING!")
 
 EMAIL_PORT = 587
 
