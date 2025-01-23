@@ -1,10 +1,15 @@
 import json
+from cryptography.fernet import Fernet
+from django.conf import settings
 from channels.generic.websocket import WebsocketConsumer
 from django.shortcuts import get_object_or_404
 from django.db.models import Q, Count
 from django.template.loader import render_to_string
 from asgiref.sync import async_to_sync
 from .models import *
+
+
+f = Fernet(settings.ENCRYPT_KEY)
 
 
 class ChatroomConsumer(WebsocketConsumer):
@@ -34,8 +39,13 @@ class ChatroomConsumer(WebsocketConsumer):
         text_data_json = json.loads(text_data)
         message_content = text_data_json["body"]
 
+        # ENCRYPT MESSAGE.
+        message_bytes = message_content.encode("utf-8")
+        message_encrypted = f.encrypt(message_bytes)
+        message_decoded = message_encrypted.decode("utf-8")
+
         message = GroupMessage.objects.create(
-            body=message_content, author=self.user, group=self.chatroom
+            body=message_decoded, author=self.user, group=self.chatroom
         )
 
         event = {"type": "message_handler", "message_id": message.id}

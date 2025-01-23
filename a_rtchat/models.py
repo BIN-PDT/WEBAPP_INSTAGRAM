@@ -1,6 +1,8 @@
 from os.path import basename
 from PIL import Image
 from shortuuid import uuid
+from cryptography.fernet import Fernet
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -51,6 +53,13 @@ class GroupMessage(models.Model):
             return True
         except:
             return False
+
+    @property
+    def content_decrypted(self):
+        f = Fernet(settings.ENCRYPT_KEY)
+        message_decrypted = f.decrypt(self.body)
+        message_decoded = message_decrypted.decode("utf-8")
+        return message_decoded
 
     def __str__(self):
         if self.body:
