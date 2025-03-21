@@ -1,4 +1,5 @@
 from allauth.account.utils import send_email_confirmation
+from allauth.socialaccount.models import SocialAccount
 from django.http import Http404
 from django.urls import reverse
 from django.db.models import Count
@@ -94,6 +95,7 @@ def profile_delete_view(request):
 def profile_settings_view(request):
     profile = request.user.profile
     is_verified = profile.user.emailaddress_set.get(primary=True).verified
+    used_providers = [e.provider for e in profile.user.socialaccount_set.all()]
     form = ProfileEmailEdit(instance=profile)
 
     if request.method == "POST":
@@ -107,7 +109,11 @@ def profile_settings_view(request):
         else:
             messages.error(request, "Form is not valid!")
 
-    context = {"form": form, "is_verified": is_verified}
+    context = {
+        "form": form,
+        "is_verified": is_verified,
+        "used_providers": used_providers,
+    }
     return render(request, "a_users/profile_settings.html", context)
 
 
@@ -115,3 +121,11 @@ def profile_settings_view(request):
 def profile_verify_email(request):
     send_email_confirmation(request, request.user)
     return redirect("profile-settings")
+
+
+@login_required
+def link_social_account(request, provider):
+    if SocialAccount.objects.filter(user=request.user, provider=provider).exists():
+        messages.error(request, f"Your account was linked to {provider.upper()}!")
+        return redirect("profile-settings")
+    return redirect(f"/account/{provider}/login/")

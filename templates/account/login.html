@@ -44,14 +44,12 @@
             {% endif %}
             {% if LOGIN_BY_CODE_ENABLED %}
                 {% element button href=request_login_code_url tags="prominent,login,outline,primary" %}
-                    {% trans "Mail me a sign-in code" %}
+                    {% trans "Send me a sign-in code" %}
                 {% endelement %}
             {% endif %}
         {% endelement %}
     {% endif %}
-    {% if SOCIALACCOUNT_ENABLED %}
-        {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
-    {% endif %}
+    {% include "account/snippets/social_logins.html" %}
 {% endblock content %}
 {% block extra_body %}
     {{ block.super }}
