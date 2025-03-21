@@ -128,4 +128,4 @@ def link_social_account(request, provider):
     if SocialAccount.objects.filter(user=request.user, provider=provider).exists():
         messages.error(request, f"Your account was linked to {provider.upper()}!")
         return redirect("profile-settings")
-    return redirect(f"/account/{provider}/login/")
+    return redirect(f"/accounts/{provider}/login/")
