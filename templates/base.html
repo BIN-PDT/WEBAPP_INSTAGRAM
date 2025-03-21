@@ -383,65 +383,68 @@
 				@apply hover:underline;
 			}
 
-			.allauth > h1 {
+			.allauth h1 {
 				font-family: var(--font-1);
 				@apply text-center;
 			}
 
-			.allauth > p {
+			.allauth p {
 				font-family: var(--font-2);
 				@apply text-xl text-center tracking-wide;
 			}
 
-			.allauth > p > a {
+			.allauth p > a {
 				@apply text-blue-400;
 			}
 
-			.allauth #id_password_helptext {
-				font-family: var(--font-2);
-				@apply absolute right-0 -bottom-11 ml-auto z-10;
-			}
-
-			.allauth > form > p {
+			.allauth form > p {
 				@apply relative;
 			}
 
-			.allauth > form > p > label {
+			.allauth form + p {
+				@apply mt-5 mb-0 text-base text-gray-500;
+			}
+
+			.allauth form > p > label {
 				@apply hidden;
 			}
 
-			.allauth > form > p > label[for="id_remember"] {
+			.allauth label[for="id_remember"] {
 				font-family: var(--font-2);
-				@apply block text-base not-italic;
+				@apply block w-auto mr-2 text-base not-italic;
 			}
 
-			.allauth > form > p > input {
+			.allauth #id_password_helptext {
+				@apply absolute right-0 -bottom-11 ml-auto z-10 text-base;
+			}
+
+			.allauth input[name="remember"] {
+				width: auto;
+			}
+
+			.allauth form > p > input {
 				font-family: var(--font-4);
-				@apply tracking-wider placeholder:!tracking-wide placeholder:italic;
+				@apply text-base tracking-wider placeholder:!tracking-wide placeholder:italic;
 			}
 
-			.allauth > form > p > input[type="password"] {
+			.allauth form > p > input[type="password"] {
 				@apply tracking-widest;
 			}
 
-			.allauth > form > ul,
-			.allauth > form > ul + p {
+			.allauth form > ul,
+			.allauth form > ul + p {
 				@apply hidden;
 			}
 
-			.allauth > form > ul.errorlist + p {
+			.allauth form > ul.errorlist + p {
 				@apply block;
 			}
 
-			.allauth > form > button {
-				@apply block mt-10 mx-auto px-8;
+			.allauth form > button {
+				@apply block mt-10 mx-auto px-10;
 			}
 
-			.allauth > form + p {
-				@apply mt-5 mb-0 text-gray-500;
-			}
-
-			.allauth > form > a {
+			.allauth form > a {
 				font-family: var(--font-2);
 				@apply block text-right;
 			}
@@ -490,7 +493,9 @@
 	<body class="bg-gray-100">
 		{% include "includes/messages.html" %}
 		{% include "includes/header.html" %}
-		{% block layout %}{% endblock %}
+		<div class="{% block control_class %}{% endblock %}">
+			{% block layout %}{% endblock %}
+		</div>
 
 		{% if user.is_authenticated %}
 			<footer
