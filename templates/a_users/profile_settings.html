@@ -106,16 +106,28 @@
                 </a>
             </div>
         </div>
-        <!-- CHANGE PASSWORD -->
         <div class="flex justify-between">
-            <h3 class="font-2 tracking-wide">Change Password</h3>
-            <div class="basis-[10%] font-2">
-                <a
-                    href="{% url "account_change_password" %}"
-                    class="tracking-wide text-blue-500 hover:underline"
-                    >Change</a
-                >
-            </div>
+            <!-- SET PASSOWRD -->
+            {% if not user.has_usable_password %}
+                <h3 class="font-2 tracking-wide">Set Password</h3>
+                <div class="basis-[10%] font-2">
+                    <a
+                        href="{% url "account_set_password" %}?next={% url "profile-settings" %}"
+                        class="tracking-wide text-green-500 hover:underline cursor-pointer"
+                        >Confirm</a
+                    >
+                </div>
+            <!-- CHANGE PASSWORD -->
+            {% else %}
+                <h3 class="font-2 tracking-wide">Change Password</h3>
+                <div class="basis-[10%] font-2">
+                    <a
+                        href="{% url "account_change_password" %}?next={% url "profile-settings" %}"
+                        class="tracking-wide text-green-500 hover:underline cursor-pointer"
+                        >Confirm</a
+                    >
+                </div>
+            {% endif %}
         </div>
         <!-- DELETE ACCOUNT -->
         <div class="flex justify-between">
