@@ -17,11 +17,11 @@ ENVIRONMENT = env("ENVIRONMENT", default="production")
 
 SECRET_KEY = env("SECRET_KEY", default=None)
 if SECRET_KEY is None:
-    raise ImproperlyConfigured("SECRET_KEY IS MISSING!")
+    raise ImproperlyConfigured("SECRET_KEY is missing!")
 
 ENCRYPT_KEY = env("ENCRYPT_KEY", default=None)
 if ENCRYPT_KEY is None:
-    raise ImproperlyConfigured("ENCRYPT_KEY IS MISSING!")
+    raise ImproperlyConfigured("ENCRYPT_KEY is missing!")
 
 
 # SECURITY MODE.
@@ -47,12 +47,12 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
+    "django_cleanup.apps.CleanupConfig",
+    "django_htmx",
     "admin_honeypot",
     "allauth",
-    "django_htmx",
     "allauth.account",
     "allauth.socialaccount",
-    "django_cleanup.apps.CleanupConfig",
     "a_posts",
     "a_users",
     "a_inbox",
@@ -162,38 +162,43 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # EMAIL CONFIGURATION.
 
-# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+if not DEBUG:
+    EMAIL_HOST_USER = env("EMAIL_ADDRESS", default=None)
+    if EMAIL_HOST_USER is None:
+        raise ImproperlyConfigured("EMAIL_ADDRESS is missing!")
 
-EMAIL_HOST = "smtp.gmail.com"
+    EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD", default=None)
+    if EMAIL_HOST_PASSWORD is None:
+        raise ImproperlyConfigured("EMAIL_PASSWORD is missing!")
 
-EMAIL_HOST_USER = env("EMAIL_ADDRESS", default=None)
-if EMAIL_HOST_USER is None:
-    raise ImproperlyConfigured("EMAIL_ADDRESS IS MISSING!")
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
-EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD", default=None)
-if EMAIL_HOST_PASSWORD is None:
-    raise ImproperlyConfigured("EMAIL_PASSWORD IS MISSING!")
+    EMAIL_HOST = "smtp.gmail.com"
 
-EMAIL_PORT = 587
+    EMAIL_PORT = 587
 
-EMAIL_USE_TLS = True
+    EMAIL_USE_TLS = True
 
-DEFAULT_FROM_EMAIL = f"Awesome {EMAIL_HOST_USER}"
+    DEFAULT_FROM_EMAIL = f"Awesome {EMAIL_HOST_USER}"
 
-ACCOUNT_EMAIL_SUBJECT_PREFIX = ""
+    ACCOUNT_EMAIL_SUBJECT_PREFIX = ""
 
 
 # ADDITIONAL CONFIGURATION.
 
 LOGIN_REDIRECT_URL = "home"
 
-ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_UNIQUE_EMAIL = True
 
-ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_LOGIN_METHODS = ["username", "email"]
+
+ACCOUNT_SIGNUP_FIELDS = ["email*", "username*", "password1*", "password2*"]
 
 ACCOUNT_SIGNUP_REDIRECT_URL = "profile-onboarding"
+
+ACCOUNT_LOGOUT_REDIRECT_URL = "home"
 
 ACCOUNT_USERNAME_BLACKLIST = [
     "admin",
