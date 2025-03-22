@@ -16,6 +16,8 @@ git clone https://github.com/BIN-PDT/WEBAPP_AWESOME.git && rm -rf WEBAPP_AWESOME
 
 _For privacy reasons, replace the sensitive information in `a_core/.env` with your own._
 
+-   _Register OAuth Application with each Social Provider to obtain `CLIENT_ID` & `CLIENT_SECRET`_.
+
 -   _Replace `EMAIL_ADDRESS` & `EMAIL_PASSWORD` (Application Password) with your Gmail Account_.
 
 -   _Generate `SECRET_KEY`_.
