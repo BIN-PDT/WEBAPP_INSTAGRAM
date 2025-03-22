@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "django_cleanup.apps.CleanupConfig",
     "django_htmx",
-    "admin_honeypot",
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
@@ -251,7 +250,6 @@ ACCOUNT_LOGOUT_REDIRECT_URL = "home"
 
 ACCOUNT_USERNAME_BLACKLIST = [
     "admin",
-    "administrator",
     "accounts",
     "inbox",
     "chat",

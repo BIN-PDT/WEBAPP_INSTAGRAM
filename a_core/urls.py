@@ -8,8 +8,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     # ADMIN.
-    path("admin/", include("admin_honeypot.urls", namespace="admin_honeypot")),
-    path("administrator/", admin.site.urls),
+    path("admin/", admin.site.urls),
     # FEATURE.
     path("accounts/", include("allauth.urls")),
     path("inbox/", include("a_inbox.urls")),
