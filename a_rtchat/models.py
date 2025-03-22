@@ -4,7 +4,7 @@ from shortuuid import uuid
 from cryptography.fernet import Fernet
 from django.conf import settings
 from django.db import models
-from django.contrib.auth.models import User
+from a_users.models import User
 
 
 class ChatGroup(models.Model):

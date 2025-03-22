@@ -2,8 +2,7 @@ from allauth.account.models import EmailAddress
 from django.shortcuts import get_object_or_404
 from django.dispatch import receiver
 from django.db.models.signals import post_save
-from django.contrib.auth.models import User
-from .models import Profile
+from .models import User, Profile
 
 
 @receiver(post_save, sender=User)

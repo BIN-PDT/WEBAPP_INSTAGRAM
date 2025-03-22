@@ -1,16 +1,14 @@
 from os.path import join
 from django.core.files import File
-from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
-from allauth.account.models import EmailAddress
+from a_users.models import User
 from a_posts.models import Tag
 from a_rtchat.models import ChatGroup
 
 
 def create_superuser(username="ad", email="admin@gmail.com", password="admin"):
     if not User.objects.filter(is_superuser=True).exists():
-        user = User.objects.create_superuser(username, email, password)
-        EmailAddress.objects.create(user=user, email=email, primary=True, verified=True)
+        User.objects.create_superuser(username, email, password)
 
 
 def create_chatrooms():

@@ -2,11 +2,11 @@ from cryptography.fernet import Fernet
 from django.conf import settings
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from .models import *
 from .forms import *
+from a_users.models import User
 
 
 f = Fernet(settings.ENCRYPT_KEY)
