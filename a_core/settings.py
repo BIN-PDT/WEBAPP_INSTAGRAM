@@ -1,3 +1,4 @@
+import dj_database_url
 from pathlib import Path
 from environ import Env
 from django.core.exceptions import ImproperlyConfigured
@@ -165,6 +166,15 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+USE_REMOTE_DATABASE_LOCALLY = False
+
+if not DEBUG or USE_REMOTE_DATABASE_LOCALLY:
+    DATABASE_URL = env("DATABASE_URL", default=None)
+    if DATABASE_URL is None:
+        raise ImproperlyConfigured("DATABASE_URL is missing!")
+
+    DATABASES["default"] = dj_database_url.parse(DATABASE_URL)
 
 
 # PASSWORD VALIDATION.
