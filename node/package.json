@@ -3,13 +3,15 @@
 	"version": "1.0.0",
 	"main": "index.js",
 	"scripts": {
-		"tailwind": "npx tailwindcss -i ../static/css/tailwind.css -o ../static/css/style.css"
+		"tailwind": "npx tailwindcss -i ../static/css/tailwind.css -o ../static/css/style.css",
+		"minify": "cleancss ../static/css/style.css -o ../static/css/style.min.css"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"description": "",
 	"devDependencies": {
+		"clean-css-cli": "^5.6.3",
 		"tailwindcss": "^3.4.17"
 	}
 }
