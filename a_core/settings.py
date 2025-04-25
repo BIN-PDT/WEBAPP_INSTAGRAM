@@ -29,7 +29,13 @@ if ENCRYPT_KEY is None:
 
 DEBUG = ENVIRONMENT == "development"
 
-ALLOWED_HOSTS = ["*"]
+LIVE_HOST = env("LIVE_HOST", None)
+if not DEBUG and LIVE_HOST is None:
+    raise ImproperlyConfigured("LIVE_HOST is missing!")
+
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", LIVE_HOST]
+
+CSRF_TRUSTED_ORIGINS = [f"https://{LIVE_HOST}"]
 
 INTERNAL_IPS = ["127.0.0.1"]
 
