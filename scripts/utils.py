@@ -18,7 +18,7 @@ def create_chatrooms():
 
 
 def create_tags():
-    STATIC_PATH = join("static", "images")
+    STATIC_PATH = join("staticfiles", "images")
 
     def create_tag(file_name, name, slug, order):
         if not Tag.objects.filter(name=name).exists():
