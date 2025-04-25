@@ -55,6 +55,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "cloudinary_storage",
+    "cloudinary",
     "django.contrib.sites",
     "django_cleanup.apps.CleanupConfig",
     "django_htmx",
@@ -214,6 +216,15 @@ USE_TZ = True
 
 # STATIC FILES (CSS, JAVASCRIPT, IMAGES).
 
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
+
 STATIC_URL = "static/"
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
@@ -222,7 +233,30 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 
 MEDIA_URL = "media/"
 
-MEDIA_ROOT = BASE_DIR / "media"
+if not DEBUG or USE_REMOTE_DATABASE_LOCALLY:
+    STORAGES["default"] = {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    }
+
+    CLOUDINARY_CLOUD_NAME = env("CLOUDINARY_CLOUD_NAME", None)
+    if CLOUDINARY_CLOUD_NAME is None:
+        raise ImproperlyConfigured("CLOUDINARY_CLOUD_NAME is missing!")
+
+    CLOUDINARY_API_KEY = env("CLOUDINARY_API_KEY", None)
+    if CLOUDINARY_API_KEY is None:
+        raise ImproperlyConfigured("CLOUDINARY_API_KEY is missing!")
+
+    CLOUDINARY_API_SECRET = env("CLOUDINARY_API_SECRET", None)
+    if CLOUDINARY_API_SECRET is None:
+        raise ImproperlyConfigured("CLOUDINARY_API_SECRET is missing!")
+
+    CLOUDINARY_STORAGE = {
+        "CLOUD_NAME": CLOUDINARY_CLOUD_NAME,
+        "API_KEY": CLOUDINARY_API_KEY,
+        "API_SECRET": CLOUDINARY_API_SECRET,
+    }
+else:
+    MEDIA_ROOT = BASE_DIR / "media"
 
 
 # DEFAULT PRIMARY KEY FIELD TYPE.

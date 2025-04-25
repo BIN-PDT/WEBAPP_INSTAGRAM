@@ -1,4 +1,5 @@
 from allauth.account.models import EmailAddress
+from django_resized import ResizedImageField
 from django.db import models
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.templatetags.static import static
@@ -22,7 +23,9 @@ class User(AbstractUser):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to="avatars/", null=True, blank=True)
+    image = ResizedImageField(
+        upload_to="avatars/", null=True, blank=True, size=[600, 600], quality=85
+    )
     realname = models.CharField(max_length=20, null=True, blank=True)
     email = models.EmailField(unique=True, null=True)
     location = models.CharField(max_length=20, null=True, blank=True)
