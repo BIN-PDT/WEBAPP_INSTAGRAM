@@ -8,9 +8,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ENVIRONMENT VARIABLE.
 
 env = Env()
-Env.read_env()
+Env.read_env(".env")
 
-ENVIRONMENT = env("ENVIRONMENT", default="production")
+ENVIRONMENT = env("ENVIRONMENT", default="development")
 
 
 # SECURITY KEY.
@@ -96,6 +96,7 @@ TEMPLATES = [
 
 
 # SOCIAL ACCOUNT.
+
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
         "APP": {
@@ -213,13 +214,13 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 if not DEBUG:
-    EMAIL_HOST_USER = env("EMAIL_ADDRESS", default=None)
+    EMAIL_HOST_USER = env("MAIL_USERNAME", default=None)
     if EMAIL_HOST_USER is None:
-        raise ImproperlyConfigured("EMAIL_ADDRESS is missing!")
+        raise ImproperlyConfigured("MAIL_USERNAME is missing!")
 
-    EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD", default=None)
+    EMAIL_HOST_PASSWORD = env("MAIL_PASSWORD", default=None)
     if EMAIL_HOST_PASSWORD is None:
-        raise ImproperlyConfigured("EMAIL_PASSWORD is missing!")
+        raise ImproperlyConfigured("MAIL_PASSWORD is missing!")
 
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
