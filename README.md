@@ -1,4 +1,4 @@
-# AWESOME WEB APPLICATION
+# INSTAGRAM CLONE WEB APPLICATION
 
 ![](public/INTRODUCTION.png)
 
@@ -8,80 +8,36 @@
     </em>
 </p>
 
-## 1. PROJECT
+## ENVIRONMENT VARIABLE
 
-```
-git clone https://github.com/BIN-PDT/WEBAPP_INSTAGRAM.git && rm -rf WEBAPP_INSTAGRAM/.git
-```
+-   `PYTHON_VERSION` : _Version of Python_.
 
-_For privacy reasons, follow the format of `.env.example` and replace the sensitive information in `.env` with your own._
+-   `LIVE_HOST` : _Domain of live site_.
 
--   _Register OAuth Application with each Social Provider to obtain `CLIENT_ID` & `CLIENT_SECRET`_.
+-   `ENVIRONMENT` : _Devlopment/Production environment_.
 
--   _Replace `MAIL_USERNAME` & `MAIL_PASSWORD` (Application Password) with your Gmail Account_.
+-   `SECRET_KEY` : _Django secret key_.
 
--   _Generate `SECRET_KEY`_.
+-   `ENCRYPT_KEY` : _Fernet secret key_.
 
-    ```
-    python manage.py shell
-    ```
+-   `DATABASE_URL` : _Connection string of remote database_.
 
-    ```python
-    from django.core.management.utils import get_random_secret_key
-    print(get_random_secret_key())
-    exit()
-    ```
+-   _Mailer_
 
--   _Generate `ENCRYPT_KEY`_.
+    -   `MAIL_USERNAME` : _Email address_.
 
-    ```
-    python manage.py shell
-    ```
+    -   `MAIL_PASSWORD` : _Application password_.
 
-    ```python
-    from cryptography.fernet import Fernet
-    print(Fernet.generate_key())
-    exit()
-    ```
+-   _Media Server_
 
-## 2. VIRTUAL ENVIRONMENT
+    -   `CLOUDINARY_CLOUD_NAME` : _Cloud name of Cloudinary_.
 
-```
-python -m venv .venv
-```
+    -   `CLOUDINARY_API_KEY`: _API key of Cloudinary_.
 
-```
-.venv\Scripts\activate.bat
-```
+    -   `CLOUDINARY_API_SECRET` : _API secret of Cloudinary_.
 
-## 3. DEPENDENCY
+-   _Social Logins_
 
-```
-python.exe -m pip install --upgrade pip
-```
+    -   `OAUTH_{% SOCIAL %}_CLIENT_ID` : _Client ID of Social OAuth2_.
 
-```
-pip install -r requirements.txt
-```
-
-## 4. DATABASE
-
-```
-python manage.py migrate
-```
-
-```
-python manage.py shell
-```
-
-```python
-from scripts.utils import load_data
-load_data()
-exit()
-```
-
-## 5. RUN APPLICATION
-
-```
-python manage.py runserver
-```
+    -   `OAUTH_{% SOCIAL %}_CLIENT_SECRET` : _Client secret of Social OAuth2_.
